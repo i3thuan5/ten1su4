@@ -27,7 +27,7 @@ export const 遠端查詢 = 語句 => dispatch => {
   return superagent
     .get(後端網址 + 標漢字音標)
     .query({
-        '查詢腔口': '閩南語',
+        '查詢腔口': '四縣腔',
         '查詢語句': 語句.trim(),
       })
     .then(({ body }) => dispatch(收到遠端查詢(語句, body)))

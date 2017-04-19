@@ -24,7 +24,7 @@ export default class 漢字一逝臺羅一逝 extends React.Component {
             </tr>
             <tr>
               <td/>
-              <td>{綜音.臺羅閏號調}</td>
+              <td>{綜音.臺灣客話}</td>
             </tr>
           </tbody>
         </table>

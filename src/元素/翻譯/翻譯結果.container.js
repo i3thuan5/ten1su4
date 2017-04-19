@@ -3,7 +3,7 @@ import 翻譯結果 from './翻譯結果';
 import { 查詢語句 } from '../../actions';
 
 const matchStateToProps = (state) => ({
-  腔口: '閩南語',
+  腔口: '四縣腔',
   正在查詢: state.查詢.正在查詢,
   查詢結果: state.查詢.查詢結果,
 });

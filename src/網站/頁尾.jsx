@@ -14,7 +14,7 @@ export default class ToLam extends React.Component {
             <a href='http://docs.tai5uan5gian5gi2hok8bu7.apiary.io/'>服務API</a>
           </li>
           <li className='item'>
-            <a href='https://github.com/sih4sing5hong5/tau3_phah4-ji7'>前端網站程式碼</a>
+            <a href='https://github.com/i3thuan5/ten1su4'>前端網站程式碼</a>
           </li>
           <li className='item'>
             <a href='https://github.com/sih4sing5hong5/tai5-uan5_gian5-gi2_hok8-bu7/wiki'>後端服務程式碼</a>

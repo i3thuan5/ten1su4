@@ -42,7 +42,7 @@ class 翻譯結果 extends React.Component {
               <顯示 選項='漢字' 查詢結果={查詢結果}/>
             </TabPanel>
             <TabPanel>
-              <顯示 選項='臺羅閏號調' 查詢結果={查詢結果}/>
+              <顯示 選項='臺灣客話' 查詢結果={查詢結果}/>
             </TabPanel>
             <TabPanel>
               <顯示 選項='分詞' 查詢結果={查詢結果}/>
