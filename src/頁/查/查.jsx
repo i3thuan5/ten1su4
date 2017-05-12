@@ -1,6 +1,7 @@
 import React from 'react';
 import { browserHistory } from 'react-router';
 import Debug from 'debug';
+import {MainSection} from 'demo-ui';
 import Container翻譯結果 from '../../元素/翻譯/翻譯結果.container';
 import './查.css';
 
@@ -28,19 +29,24 @@ export default class 查 extends React.Component {
   render () {
     let { 語句, 正在查詢 } = this.props;
     return (
-      <div className='main container'>
-        <form onSubmit={this.送出.bind(this)}>
-          <textarea defaultValue={語句} ref='tt' />
-          <button className={
-            'ui huge primary right floated ' +
-            (正在查詢 ? 'disabled' : '') +
-            ' button'}
-            type='submit'
-          >查</button>
+      <MainSection>
+        <form className='ui form'
+         onSubmit={this.送出.bind(this)}>
+          <textarea defaultValue={語句} 
+          ref='tt'
+          rows='3' />
+          <div className='app clearing'>
+            <button className={
+              'ui huge primary right floated ' +
+              (正在查詢 ? 'disabled' : '') +
+              ' button'}
+              type='submit'
+            >查</button>
+          </div>
         </form>
         <br/>
         <Container翻譯結果/>
-      </div>
+      </MainSection>
     );
   }
 }
