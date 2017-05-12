@@ -23,7 +23,7 @@ describe('Action', () => {
       const 語句 = '下一句';
       const store = mockStore({
         查詢: {
-          語句: '逐家tsò-hué來chhit4-tho5！',
+          語句: '大家共下來',
           正在查詢: false,
           查詢結果: {},
         },
@@ -35,7 +35,7 @@ describe('Action', () => {
     const 語句 = '下一句';
     const store = mockStore({
       查詢: {
-        語句: '逐家tsò-hué來chhit4-tho5！',
+        語句: '大家共下來',
         正在查詢: true,
         查詢結果: {},
       },
@@ -44,10 +44,10 @@ describe('Action', () => {
   });
 
   it('stops same search', ()=> {
-    const 語句 = '逐家tsò-hué來chhit4-tho5！';
+    const 語句 = '大家共下來';
     const store = mockStore({
       查詢: {
-        語句: '逐家tsò-hué來chhit4-tho5！',
+        語句: '大家共下來',
         正在查詢: false,
         查詢結果: {},
       },
@@ -59,19 +59,16 @@ describe('Action', () => {
     nock(後端網址)
     .get('/' + 標漢字音標)
     .query({
-      '查詢腔口': '閩南語',
-      '查詢語句': '逐家tsò-hué來chhit4-tho5！',
+      '查詢腔口': '四縣腔',
+      '查詢語句': '大家共下來',
     })
     .reply(200, {
-      '分詞': '逐-家｜tak8-ke1 做-伙｜tso3-hue2 來-𨑨-迌｜lai5-tshit4-tho5 ！',
-      '綜合標音': [{
-        '分詞': '逐-家｜tak8-ke1 做-伙｜tso3-hue2 來-𨑨-迌｜lai5-tshit4-tho5 ！',
-        '臺羅閏號調': 'Ta̍k-ke tsò-hué lâi-tshit-thô ！',
-        '通用數字調': 'Dak6-ge1 zor3-hue4 lai5-cit7-tor5 ！',
-        '吳守禮方音': 'ㄉㄚ㆐ㆶ-ㄍㆤ ㄗㄜ˪-ㄏㄨㆤˋ ㄌㄞˊ-ㄑㄧㆵ-ㄊㄜˊ ！',
-        '漢字': '逐家 做伙 來𨑨迌 ！',
-        '臺羅數字調': 'Tak8-ke1 tso3-hue2 lai5-tshit4-tho5 ！',
-      }, ],
+      '分詞': '大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ',
+        '綜合標音': [{
+          '分詞': '大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ',
+          '漢字': '大家 共下 來',
+          '臺灣客話': 'Tai-gaˊ kiung-ha loiˇ',
+        },],
     });
 
     const store = mockStore({
@@ -81,22 +78,19 @@ describe('Action', () => {
     });
 
     const expectActions = [
-      { type: REQUEST_HANLO, '語句': '逐家tsò-hué來chhit4-tho5！' },
-      { type: RECIEVE_HANLO, '語句': '逐家tsò-hué來chhit4-tho5！',
+      { type: REQUEST_HANLO, '語句': '大家共下來' },
+      { type: RECIEVE_HANLO, '語句': '大家共下來',
         '查詢結果': {
-          '分詞': '逐-家｜tak8-ke1 做-伙｜tso3-hue2 來-𨑨-迌｜lai5-tshit4-tho5 ！',
+          '分詞': '大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ',
           '綜合標音': [{
-            '分詞': '逐-家｜tak8-ke1 做-伙｜tso3-hue2 來-𨑨-迌｜lai5-tshit4-tho5 ！',
-            '臺羅閏號調': 'Ta̍k-ke tsò-hué lâi-tshit-thô ！',
-            '通用數字調': 'Dak6-ge1 zor3-hue4 lai5-cit7-tor5 ！',
-            '吳守禮方音': 'ㄉㄚ㆐ㆶ-ㄍㆤ ㄗㄜ˪-ㄏㄨㆤˋ ㄌㄞˊ-ㄑㄧㆵ-ㄊㄜˊ ！',
-            '漢字': '逐家 做伙 來𨑨迌 ！',
-            '臺羅數字調': 'Tak8-ke1 tso3-hue2 lai5-tshit4-tho5 ！',
-          }, ],
-        }, },
-    ];
+            '分詞': '大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ',
+            '漢字': '大家 共下 來',
+            '臺灣客話': 'Tai-gaˊ kiung-ha loiˇ',
+          },],
+        }, 
+    },];
 
-    return store.dispatch(遠端查詢('逐家tsò-hué來chhit4-tho5！'))
+    return store.dispatch(遠端查詢('大家共下來'))
       .then(()=> {
         expect(store.getActions()).to.eql(expectActions);
       });
@@ -106,26 +100,20 @@ describe('Action', () => {
     nock(後端網址)
     .get('/' + 標漢字音標)
     .query({
-      '查詢腔口': '閩南語',
-      '查詢語句': '逐家！\n逐家',
+      '查詢腔口': '四縣腔',
+      '查詢語句': '大家\n來',
     })
     .reply(200, {
-      '分詞': '逐-家｜tak8-ke1！ 逐-家｜tak8-ke1',
+      '分詞': '大-家｜tai-gaˊ 來｜loiˇ',
       '綜合標音': [{
-        '分詞': '逐-家｜tak8-ke1',
-        '臺羅閏號調': 'Ta̍k-ke',
-        '通用數字調': 'Dak6-ge1',
-        '吳守禮方音': 'ㄉㄚ㆐ㆶ-ㄍㆤ',
-        '漢字': '逐家',
-        '臺羅數字調': 'Tak8-ke1',
-      }, {
-        '分詞': '逐-家｜tak8-ke1',
-        '臺羅閏號調': 'Ta̍k-ke',
-        '通用數字調': 'Dak6-ge1',
-        '吳守禮方音': 'ㄉㄚ㆐ㆶ-ㄍㆤ',
-        '漢字': '逐家',
-        '臺羅數字調': 'Tak8-ke1',
-      }, ],
+        '分詞': '大-家｜tai-gaˊ',
+        '漢字': '大家',
+        '臺灣客話': 'Tai-gaˊ',
+      },{
+        '分詞': '來｜loiˇ',
+        '漢字': '來',
+        '臺灣客話': 'loiˇ',
+      }],
     });
 
     const store = mockStore({
@@ -135,29 +123,23 @@ describe('Action', () => {
     });
 
     const expectActions = [
-      { type: REQUEST_HANLO, '語句': '逐家！\n逐家' },
-      { type: RECIEVE_HANLO, '語句': '逐家！\n逐家',
+      { type: REQUEST_HANLO, '語句': '大家\n來' },
+      { type: RECIEVE_HANLO, '語句': '大家\n來',
         '查詢結果': {
-          '分詞': '逐-家｜tak8-ke1！ 逐-家｜tak8-ke1',
+          '分詞': '大-家｜tai-gaˊ 來｜loiˇ',
           '綜合標音': [{
-            '分詞': '逐-家｜tak8-ke1',
-            '臺羅閏號調': 'Ta̍k-ke',
-            '通用數字調': 'Dak6-ge1',
-            '吳守禮方音': 'ㄉㄚ㆐ㆶ-ㄍㆤ',
-            '漢字': '逐家',
-            '臺羅數字調': 'Tak8-ke1',
-          }, {
-            '分詞': '逐-家｜tak8-ke1',
-            '臺羅閏號調': 'Ta̍k-ke',
-            '通用數字調': 'Dak6-ge1',
-            '吳守禮方音': 'ㄉㄚ㆐ㆶ-ㄍㆤ',
-            '漢字': '逐家',
-            '臺羅數字調': 'Tak8-ke1',
-          }, ],
+            '分詞': '大-家｜tai-gaˊ',
+            '漢字': '大家',
+            '臺灣客話': 'Tai-gaˊ',
+          },{
+            '分詞': '來｜loiˇ',
+            '漢字': '來',
+            '臺灣客話': 'loiˇ',
+          }],
         },
       },];
 
-    return store.dispatch(遠端查詢('逐家！\n逐家'))
+    return store.dispatch(遠端查詢('大家\n來'))
       .then(()=> {
         expect(store.getActions()).to.eql(expectActions);
       });
@@ -167,8 +149,8 @@ describe('Action', () => {
     nock(後端網址)
     .get('/' + 標漢字音標)
     .query({
-      '查詢腔口': '閩南語',
-      '查詢語句': '逐家',
+      '查詢腔口': '四縣腔',
+      '查詢語句': '大家共下來',
     })
     .replyWithError('你糗了你！');
 
@@ -179,10 +161,10 @@ describe('Action', () => {
     });
 
     const expectActions = [
-      { type: REQUEST_HANLO, '語句': '逐家' },
-      { type: RECIEVE_ERROR_HANLO, '語句': '逐家' },];
+      { type: REQUEST_HANLO, '語句': '大家共下來' },
+      { type: RECIEVE_ERROR_HANLO, '語句': '大家共下來' },];
 
-    return store.dispatch(遠端查詢('逐家'))
+    return store.dispatch(遠端查詢('大家共下來'))
       .then(()=> {
         expect(store.getActions()).to.eql(expectActions);
       });
