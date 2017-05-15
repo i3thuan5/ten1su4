@@ -3,6 +3,7 @@ import { expect } from "chai";
 import { shallow } from "enzyme";
 import { HanLoTsua } from "demo-ui";
 import 漢羅列表 from "../../src/元素/顯示/漢羅列表";
+import { 腔口 } from "../../src/constants";
 
 const setup = (綜合標音 = []) => {
   const component = shallow(
@@ -37,6 +38,7 @@ describe("Component", () => {
     it("passes props to 漢羅一逝", () => {
       const { 漢羅逝 } = setup(一標音);
       expect(漢羅逝.props()).to.eql({
+        腔口: 腔口,
         臺羅閏號調: "Tai-gaˊ kiung-ha loiˇ",
         漢字: "大家 共下 來",
         分詞: "大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ",
