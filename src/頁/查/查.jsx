@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from "prop-types";
 import { browserHistory } from 'react-router';
 import Debug from 'debug';
 import {MainSection} from 'demo-ui';
@@ -8,7 +9,7 @@ import './查.css';
 
 var debug = Debug('tau3:查');
 
-export default class 查 extends React.Component {
+class 查 extends React.Component {
 
   componentDidMount() {
     let { 語句, requestSearch } = this.props;
@@ -46,9 +47,8 @@ export default class 查 extends React.Component {
           
           <div className="app clearing">
             <button className={
-              'ui huge primary right floated' +
-              (正在查詢 ? 'disabled' : '') +
-              ' button'}
+              'ui huge primary right floated button ' +
+              (正在查詢 ? 'disabled' : '')}
               type='submit'
             >查</button>
           </div>
@@ -60,3 +60,10 @@ export default class 查 extends React.Component {
     );
   }
 }
+
+查.propTypes = {
+  語句: PropTypes.string.isRequired, 
+  正在查詢: PropTypes.bool.isRequired,
+};
+
+export default 查;
