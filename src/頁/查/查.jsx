@@ -3,6 +3,7 @@ import { browserHistory } from 'react-router';
 import Debug from 'debug';
 import {MainSection} from 'demo-ui';
 import Container翻譯結果 from '../../元素/翻譯/翻譯結果.container';
+import 'semantic-ui-css/components/dropdown.min.css';
 import './查.css';
 
 var debug = Debug('tau3:查');
@@ -32,17 +33,26 @@ export default class 查 extends React.Component {
       <MainSection>
         <form className='ui form'
          onSubmit={this.送出.bind(this)}>
+          
+          <select class="ui dropdown">
+            <option value="1">四縣腔</option>
+            <option value="0">海陸腔</option>
+          </select>
+
+          <div className="app block">
           <textarea defaultValue={語句} 
-          ref='tt'
-          rows='3' />
-          <div className='app clearing'>
+          ref='tt' rows='3' />
+          </div>
+          
+          <div className="app clearing">
             <button className={
-              'ui huge primary right floated ' +
+              'ui huge primary right floated' +
               (正在查詢 ? 'disabled' : '') +
               ' button'}
               type='submit'
             >查</button>
           </div>
+          
         </form>
         <br/>
         <Container翻譯結果/>

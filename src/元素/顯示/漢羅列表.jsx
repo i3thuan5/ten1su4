@@ -17,7 +17,6 @@ class 漢羅列表 extends React.Component {
           漢字={綜音.漢字}
           臺羅閏號調={綜音.臺灣客話}
           分詞={綜音.分詞}/>
-      
         );
       })}
       </div>
