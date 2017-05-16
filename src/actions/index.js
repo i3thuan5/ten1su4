@@ -46,7 +46,6 @@ export const 是否可以請求查詢 = (state, 語句, 腔口) => {
   {
     return false;
   }
-
   return true;
 };
 
