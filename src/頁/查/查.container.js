@@ -9,7 +9,7 @@ const matchStateToProps = (state, ownProps) => ({
 });
 
 const matchDispatchToProps = (dispatch) => ({
-    requestSearch: (語句) => {dispatch(查詢語句(語句));},
+    requestSearch: (語句, 腔) => {dispatch(查詢語句(語句, 腔));},
   });
 
 const Container查詢 = connect(

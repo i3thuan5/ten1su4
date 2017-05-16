@@ -29,12 +29,13 @@ export const 計算複製內容 = (綜合標音 = []) => {
 
 class 翻譯結果 extends React.Component {
   取得複製鈕群() {
-    const { 正在查詢, 發生錯誤, 查詢結果 } = this.props;
-    const 綜合標音 = 查詢結果.綜合標音 || [];
+    let { 正在查詢, 發生錯誤, 綜合標音, 分詞 } = this.props;
+    綜合標音 = 綜合標音 || [];
+    分詞 = 分詞 || '';
     let 複製內容 = {};
     if (!正在查詢 && !發生錯誤) {
       複製內容 = 計算複製內容(綜合標音);
-      複製內容.分詞 = 查詢結果.分詞;
+      複製內容.分詞 = 分詞;
     }
     const 複製鈕群 = [];
     Object.keys(複製內容).forEach((key) => {
@@ -46,7 +47,7 @@ class 翻譯結果 extends React.Component {
   }
 
   render () {
-    let { 正在查詢, 查詢結果, 發生錯誤 } = this.props;
+    let { 正在查詢, 發生錯誤 } = this.props;
     const 複製鈕群 = this.取得複製鈕群();
 
     return (
@@ -75,7 +76,6 @@ class 翻譯結果 extends React.Component {
 翻譯結果.propTypes = {
   正在查詢: PropTypes.bool.isRequired,
   發生錯誤: PropTypes.bool.isRequired,
-  結果腔口: PropTypes.string.isRequired,
   查詢結果: PropTypes.shape({
     分詞: PropTypes.string.isRequired,
     綜合標音: PropTypes.arrayOf(PropTypes.shape({
@@ -83,7 +83,7 @@ class 翻譯結果 extends React.Component {
       漢字: PropTypes.string.isRequired,
       臺灣客話: PropTypes.string.isRequired,
     })).isRequired,
-  }).isRequired,
+  }),
 };
 
 export default 翻譯結果;

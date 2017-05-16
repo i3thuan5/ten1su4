@@ -3,7 +3,8 @@ import 翻譯結果 from './翻譯結果';
 import { 查詢語句 } from '../../actions';
 
 const matchStateToProps = (state) => ({
-  查詢結果: state.查詢結果,
+  綜合標音: state.查詢結果.綜合標音,
+  分詞: state.查詢結果.分詞,
   發生錯誤: state.查詢.發生錯誤,
   正在查詢: state.查詢.正在查詢,
 });

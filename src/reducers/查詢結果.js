@@ -11,7 +11,7 @@ const 初始state = {
   綜合標音: [],
 };
 
-const 查詢 = (state = 初始state, action) => {
+const 查詢結果 = (state = 初始state, action) => {
   switch (action.type) {
     case RECIEVE_HANLO:
       return {
@@ -35,4 +35,4 @@ const 查詢 = (state = 初始state, action) => {
   }
 };
 
-export default 查詢;
+export default 查詢結果;
