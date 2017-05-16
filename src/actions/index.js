@@ -17,7 +17,7 @@ export const 收到遠端查詢 = (語句, 腔口, body) => ({
   type: RECIEVE_HANLO,
   語句,
   腔口,
-  '查詢結果': body,
+  查詢結果: body,
 });
 
 export const 遠端查詢發生錯誤 = (語句, 腔口) => ({
@@ -31,8 +31,8 @@ export const 遠端查詢 = (語句, 腔口) => dispatch => {
   return superagent
     .get(後端網址 + 標漢字音標)
     .query({
-        '查詢腔口': 腔口,
-        '查詢語句': 語句.trim(),
+        查詢腔口: 腔口,
+        查詢語句: 語句.trim(),
       })
     .then(({ body }) => dispatch(收到遠端查詢(語句, 腔口, body)))
     .catch(error => dispatch(遠端查詢發生錯誤(語句, 腔口)));
