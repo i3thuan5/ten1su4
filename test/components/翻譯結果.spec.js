@@ -3,11 +3,19 @@ import { expect } from 'chai';
 import { shallow } from 'enzyme';
 import 翻譯結果, { 計算複製內容 } from '../../src/元素/翻譯/翻譯結果';
 
-let setup = (腔口='四縣腔', 正在查詢=false, 查詢結果={}) => {
+const initArgv = {
+  正在查詢: false, 
+  發生錯誤: false,
+  結果腔口: '四縣腔',
+  查詢結果: {
+    分詞: '',
+    綜合標音: [],
+  }
+};
+
+let setup = (argv = initArgv) => {
   const component = shallow(
-    <翻譯結果 腔口={腔口}
-      正在查詢={正在查詢}
-      查詢結果={查詢結果}/>
+    <翻譯結果 {...argv}/>
     );
   return {
     component: component,
@@ -29,15 +37,20 @@ const 一標音複製內容 = {
 
 describe('元素', ()=> {
 describe('翻譯結果', ()=> {
-  it('shows error info', ()=> {
-      const { header } = setup('四縣腔', false, {
-        '發生錯誤': true,
-        '分詞': '',
-        '綜合標音': [],
+  it('shows requesting', ()=> {
+      const { header } = setup({
+        ...initArgv,
+        正在查詢: true
       });
-      expect(header).to.have.length(1);
-      expect(header.text()).match(/^主機發生錯誤/);
-    });
+      expect(header.at(0).text()).match(/^載入中……/);
+  });
+  it('shows server error', ()=> {
+      const { header } = setup({
+        ...initArgv,
+        發生錯誤: true
+      });
+      expect(header.at(0).text()).match(/^主機發生錯誤/);
+  });
   it("計算複製內容", () => {
     expect(計算複製內容(一標音)).to.eql(一標音複製內容);
   });

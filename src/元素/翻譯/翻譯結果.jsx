@@ -29,8 +29,7 @@ export const 計算複製內容 = (綜合標音 = []) => {
 
 class 翻譯結果 extends React.Component {
   取得複製鈕群() {
-    const { 正在查詢, 查詢結果 } = this.props;
-    const 發生錯誤 = 查詢結果.發生錯誤 || false;
+    const { 正在查詢, 發生錯誤, 查詢結果 } = this.props;
     const 綜合標音 = 查詢結果.綜合標音 || [];
     let 複製內容 = {};
     if (!正在查詢 && !發生錯誤) {
@@ -47,8 +46,7 @@ class 翻譯結果 extends React.Component {
   }
 
   render () {
-    let { 腔口, 正在查詢, 查詢結果 } = this.props;
-    const 發生錯誤 = 查詢結果.發生錯誤 || false;
+    let { 正在查詢, 查詢結果, 發生錯誤 } = this.props;
     const 複製鈕群 = this.取得複製鈕群();
 
     return (
@@ -76,6 +74,8 @@ class 翻譯結果 extends React.Component {
 
 翻譯結果.propTypes = {
   正在查詢: PropTypes.bool.isRequired,
+  發生錯誤: PropTypes.bool.isRequired,
+  結果腔口: PropTypes.string.isRequired,
   查詢結果: PropTypes.shape({
     分詞: PropTypes.string.isRequired,
     綜合標音: PropTypes.arrayOf(PropTypes.shape({
