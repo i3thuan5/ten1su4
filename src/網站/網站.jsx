@@ -8,7 +8,7 @@ var debug = Debug('tau3:網站');
 export default class 網站 extends React.Component {
 
   render () {
-    let { ku } = this.props.params;
+    let { ku, khiunn } = this.props.params;
 
     return (
         <Layout>
@@ -18,6 +18,7 @@ export default class 網站 extends React.Component {
               this.props.children,
               {
                 語句: ku || 'Tai-gaˊ共下來𢯭手！',
+                腔: khiunn || '四縣腔'
               }
             )
           }
