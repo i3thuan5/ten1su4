@@ -19,8 +19,9 @@ class 查 extends React.Component {
   送出 (e) {
     e.preventDefault();
     let tt = this.refs.tt;
+    let sel = this.refs.sel;
     let { requestSearch } = this.props;
-    requestSearch(tt.value, '四縣腔');
+    requestSearch(tt.value, sel.value);
     this.更新網址(tt.value);
   }
 
@@ -35,7 +36,7 @@ class 查 extends React.Component {
         <form className='ui form'
          onSubmit={this.送出.bind(this)}>
           
-          <select className="ui dropdown">
+          <select className="ui dropdown" ref='sel'>
             <option value="四縣腔">四縣腔</option>
             <option value="海陸腔">海陸腔</option>
           </select>
