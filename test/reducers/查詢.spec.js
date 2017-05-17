@@ -1,122 +1,113 @@
-import { expect } from 'chai';
-import 查詢 from '../../src/reducers/查詢';
+import { expect } from "chai";
+import 查詢 from "../../src/reducers/查詢";
 
-describe('Reducer', () => {
-  let 初始狀態規範 = {
-      語句: '',
-      正在查詢: false,
-      查詢結果: {
-        '分詞': '',
-        '綜合標音': [],
-      },
-    };
+const 初始狀態規範 = {
+  語句: "",
+  腔口: "四縣腔",
+  正在查詢: false,
+  發生錯誤: false,
+};
 
-  it('has initial state', ()=> {
+describe("Reducer 查詢", () => {
+  it("has initial state", () => {
     expect(查詢(undefined, {}))
     .to
     .eql(初始狀態規範);
   });
 
-  it('recognizes action REQUEST_HANLO', ()=> {
+  it("recognizes action REQUEST_HANLO with 新句子", () => {
     expect(查詢(undefined, {
-      type: 'REQUEST_HANLO',
-      語句: 'sui2',
+      type: "REQUEST_HANLO",
+      語句: "下一句",
+      腔口: "四縣腔",
     }))
     .to
     .eql({
       ...初始狀態規範,
-      語句: 'sui2',
       正在查詢: true,
+      語句: "下一句",
+      腔口: "四縣腔",
     });
   });
 
-  it('recognizes action RECIEVE_HANLO', ()=> {
+  it("recognizes action REQUEST_HANLO with 新腔調", () => {
     expect(查詢(undefined, {
-      type: 'RECIEVE_HANLO',
-      語句: '逐家',
-      查詢結果: {
-        '分詞': '逐-家｜tak8-ke1',
-        '綜合標音': [{
-          '分詞': '逐-家｜tak8-ke1',
-          '臺羅閏號調': 'Ta̍k-ke',
-          '通用數字調': 'Dak6-ge1',
-          '吳守禮方音': 'ㄉㄚ㆐ㆶ-ㄍㆤ',
-          '漢字': '逐家',
-          '臺羅數字調': 'Tak8-ke1',
-        },],
-      },
+      type: "REQUEST_HANLO",
+      語句: "大家",
+      腔口: "海陸腔",
     }))
     .to
     .eql({
-      語句: '逐家',
-      正在查詢: false,
-      查詢結果: {
-        '分詞': '逐-家｜tak8-ke1',
-        '綜合標音': [{
-          '分詞': '逐-家｜tak8-ke1',
-          '臺羅閏號調': 'Ta̍k-ke',
-          '通用數字調': 'Dak6-ge1',
-          '吳守禮方音': 'ㄉㄚ㆐ㆶ-ㄍㆤ',
-          '漢字': '逐家',
-          '臺羅數字調': 'Tak8-ke1',
-        },],
-      },
-    });
-  });
-
-  it('preserves previous value when get new request', ()=> {
-    expect(查詢({
-      語句: '逐家',
-      正在查詢: false,
-      查詢結果: {
-        '分詞': '逐-家｜tak8-ke1',
-        '綜合標音': [{
-          '分詞': '逐-家｜tak8-ke1',
-          '臺羅閏號調': 'Ta̍k-ke',
-          '通用數字調': 'Dak6-ge1',
-          '吳守禮方音': 'ㄉㄚ㆐ㆶ-ㄍㆤ',
-          '漢字': '逐家',
-          '臺羅數字調': 'Tak8-ke1',
-        },],
-      },
-    }, {
-      type: 'REQUEST_HANLO',
-      語句: 'sui2',
-    }))
-    .to
-    .eql({
-      語句: 'sui2',
+      ...初始狀態規範,
       正在查詢: true,
-      查詢結果: {
-        '分詞': '逐-家｜tak8-ke1',
-        '綜合標音': [{
-          '分詞': '逐-家｜tak8-ke1',
-          '臺羅閏號調': 'Ta̍k-ke',
-          '通用數字調': 'Dak6-ge1',
-          '吳守禮方音': 'ㄉㄚ㆐ㆶ-ㄍㆤ',
-          '漢字': '逐家',
-          '臺羅數字調': 'Tak8-ke1',
-        },],
-      },
+      語句: "大家",
+      腔口: "海陸腔",
     });
   });
 
-  it('show info when get action RECIEVE_ERROR_HANLO', ()=> {
-    expect(查詢(undefined, { type: 'RECIEVE_ERROR_HANLO', 語句: '逐家' }))
+  it("recognizes action REQUEST_HANLO with 新句子 新腔調", () => {
+    expect(查詢(undefined, {
+      type: "REQUEST_HANLO",
+      語句: "下一句",
+      腔口: "海陸腔",
+    }))
     .to
     .eql({
-      語句: '逐家',
-      正在查詢: false,
-      查詢結果: {
-        '發生錯誤': true,
-        '分詞': '',
-        '綜合標音': [],
-      },
+      ...初始狀態規範,
+      正在查詢: true,
+      語句: "下一句",
+      腔口: "海陸腔",
     });
   });
 
-  it('ignores other action', ()=> {
-    expect(查詢(undefined, { type: 'HELLO_WORLD' }))
+  it("recognizes action RECIEVE_HANLO and reset 正在查詢", () => {
+    const oldState = {
+      語句: "大家共下來",
+      腔口: "四縣腔",
+      正在查詢: true,
+    };
+    expect(查詢(oldState, {
+      type: "RECIEVE_HANLO",
+      語句: "大家共下來",
+      腔口: "四縣腔",
+      查詢結果: {
+        分詞: "大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ",
+        綜合標音: [{
+          分詞: "大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ",
+          漢字: "大家 共下 來",
+          臺灣客話: "Tai-gaˊ kiung-ha loiˇ",
+        }],
+      },
+    }))
+    .to
+    .eql({
+      語句: "大家共下來",
+      腔口: "四縣腔",
+      正在查詢: false,
+    });
+  });
+
+  it("recognizes action RECIEVE_ERROR_HANLO and reset 正在查詢", () => {
+    const oldState = {
+      語句: "大家",
+      腔口: "海陸腔",
+      正在查詢: true,
+    };
+    expect(查詢(oldState, {
+      type: "RECIEVE_ERROR_HANLO",
+      語句: "大家",
+      腔口: "海陸腔",
+    }))
+    .to.eql({
+      語句: "大家",
+      腔口: "海陸腔",
+      正在查詢: false,
+      發生錯誤: true,
+    });
+  });
+
+  it("ignores other action", () => {
+    expect(查詢(undefined, { type: "HELLO_WORLD" }))
     .to
     .eql(初始狀態規範);
   });

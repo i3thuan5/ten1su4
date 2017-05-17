@@ -1,190 +1,237 @@
-import nock from 'nock';
-import { expect } from 'chai';
-import sinon from 'sinon';
-import configureMockStore from 'redux-mock-store';
-import thunk from 'redux-thunk';
+import nock from "nock";
+import { expect } from "chai";
+import configureMockStore from "redux-mock-store";
+import thunk from "redux-thunk";
 import {
   REQUEST_HANLO,
   RECIEVE_HANLO,
-  RECIEVE_ERROR_HANLO
-} from '../../src/actions/action.type';
-import { 是否可以請求查詢, 遠端查詢 } from '../../src/actions/';
-import { 後端網址, 標漢字音標 } from '../../src/後端網址';
+  RECIEVE_ERROR_HANLO,
+} from "../../src/actions/action.type";
+import {
+  是否可以請求查詢,
+  遠端查詢,
+} from "../../src/actions/";
+import { 後端網址, 標漢字音標 } from "../../src/後端網址";
 
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 
-describe('Action', () => {
-  afterEach(()=> {
+describe("Action", () => {
+  afterEach(() => {
     nock.cleanAll();
   });
 
-  it('passes valid search', function () {
-      const 語句 = '下一句';
-      const store = mockStore({
-        查詢: {
-          語句: '逐家tsò-hué來chhit4-tho5！',
-          正在查詢: false,
-          查詢結果: {},
-        },
-      });
-      expect(是否可以請求查詢(store.getState(), 語句)).to.be.true;
-    });
-
-  it('stops invalid search', ()=> {
-    const 語句 = '下一句';
+  it("查新語句", () => {
+    const 同腔口 = "四縣腔";
     const store = mockStore({
       查詢: {
-        語句: '逐家tsò-hué來chhit4-tho5！',
-        正在查詢: true,
-        查詢結果: {},
-      },
-    });
-    expect(是否可以請求查詢(store.getState(), 語句)).to.be.false;
-  });
-
-  it('stops same search', ()=> {
-    const 語句 = '逐家tsò-hué來chhit4-tho5！';
-    const store = mockStore({
-      查詢: {
-        語句: '逐家tsò-hué來chhit4-tho5！',
+        語句: "大家共下來",
+        腔口: 同腔口,
         正在查詢: false,
         查詢結果: {},
+        結果腔口: undefined,
       },
     });
-    expect(是否可以請求查詢(store.getState(), 語句)).to.be.false;
+    expect(是否可以請求查詢(
+        store.getState(), "下一句", 同腔口,
+      )).to.equal(true);
   });
 
-  it('creates RECIEVE_HANLO when fetching data is done', () => {
+  it("查新腔調", () => {
+    const 同一句 = "大家共下來";
+    const store = mockStore({
+      查詢: {
+        語句: 同一句,
+        腔口: "四縣腔",
+        正在查詢: false,
+        查詢結果: {},
+        結果腔口: undefined,
+      },
+    });
+    expect(是否可以請求查詢(
+        store.getState(), 同一句, "海陸腔",
+      )).to.equal(true);
+  });
+
+  it("查詢中，擋掉重複查詢", () => {
+    const 同一句 = "大家共下來";
+    const 同一腔口 = "四縣腔";
+    const store = mockStore({
+      查詢: {
+        語句: 同一句,
+        腔口: 同一腔口,
+        正在查詢: true,
+        查詢結果: {},
+        結果腔口: undefined,
+      },
+    });
+    expect(是否可以請求查詢(
+      store.getState(), 同一句, 同一腔口,
+    )).to.equal(false);
+  });
+
+  it("查詢中，擋掉新查詢", () => {
+    const 下一句 = "下一句";
+    const 新腔口 = "海陸腔";
+    const store = mockStore({
+      查詢: {
+        語句: "大家共下來",
+        腔口: "四縣腔",
+        正在查詢: true,
+        查詢結果: {},
+        結果腔口: undefined,
+      },
+    });
+    expect(是否可以請求查詢(
+      store.getState(), 下一句, 新腔口,
+    )).to.equal(false);
+  });
+
+  it("creates RECIEVE_HANLO when fetching data is done", () => {
     nock(後端網址)
-    .get('/' + 標漢字音標)
+    .get(`/${標漢字音標}`)
     .query({
-      '查詢腔口': '閩南語',
-      '查詢語句': '逐家tsò-hué來chhit4-tho5！',
+      查詢腔口: "四縣腔",
+      查詢語句: "大家共下來",
     })
     .reply(200, {
-      '分詞': '逐-家｜tak8-ke1 做-伙｜tso3-hue2 來-𨑨-迌｜lai5-tshit4-tho5 ！',
-      '綜合標音': [{
-        '分詞': '逐-家｜tak8-ke1 做-伙｜tso3-hue2 來-𨑨-迌｜lai5-tshit4-tho5 ！',
-        '臺羅閏號調': 'Ta̍k-ke tsò-hué lâi-tshit-thô ！',
-        '通用數字調': 'Dak6-ge1 zor3-hue4 lai5-cit7-tor5 ！',
-        '吳守禮方音': 'ㄉㄚ㆐ㆶ-ㄍㆤ ㄗㄜ˪-ㄏㄨㆤˋ ㄌㄞˊ-ㄑㄧㆵ-ㄊㄜˊ ！',
-        '漢字': '逐家 做伙 來𨑨迌 ！',
-        '臺羅數字調': 'Tak8-ke1 tso3-hue2 lai5-tshit4-tho5 ！',
-      }, ],
+      分詞: "大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ",
+      綜合標音: [{
+        分詞: "大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ",
+        漢字: "大家 共下 來",
+        臺灣客話: "Tai-gaˊ kiung-ha loiˇ",
+      }],
     });
 
     const store = mockStore({
       查詢: {
-        '查詢結果': {},
+        查詢結果: {},
       },
     });
 
     const expectActions = [
-      { type: REQUEST_HANLO, '語句': '逐家tsò-hué來chhit4-tho5！' },
-      { type: RECIEVE_HANLO, '語句': '逐家tsò-hué來chhit4-tho5！',
-        '查詢結果': {
-          '分詞': '逐-家｜tak8-ke1 做-伙｜tso3-hue2 來-𨑨-迌｜lai5-tshit4-tho5 ！',
-          '綜合標音': [{
-            '分詞': '逐-家｜tak8-ke1 做-伙｜tso3-hue2 來-𨑨-迌｜lai5-tshit4-tho5 ！',
-            '臺羅閏號調': 'Ta̍k-ke tsò-hué lâi-tshit-thô ！',
-            '通用數字調': 'Dak6-ge1 zor3-hue4 lai5-cit7-tor5 ！',
-            '吳守禮方音': 'ㄉㄚ㆐ㆶ-ㄍㆤ ㄗㄜ˪-ㄏㄨㆤˋ ㄌㄞˊ-ㄑㄧㆵ-ㄊㄜˊ ！',
-            '漢字': '逐家 做伙 來𨑨迌 ！',
-            '臺羅數字調': 'Tak8-ke1 tso3-hue2 lai5-tshit4-tho5 ！',
-          }, ],
-        }, },
-    ];
-
-    return store.dispatch(遠端查詢('逐家tsò-hué來chhit4-tho5！'))
-      .then(()=> {
-        expect(store.getActions()).to.eql(expectActions);
-      });
-  });
-
-  it('creates only one RECIEVE_HANLO for breaklines', () => {
-    nock(後端網址)
-    .get('/' + 標漢字音標)
-    .query({
-      '查詢腔口': '閩南語',
-      '查詢語句': '逐家！\n逐家',
-    })
-    .reply(200, {
-      '分詞': '逐-家｜tak8-ke1！ 逐-家｜tak8-ke1',
-      '綜合標音': [{
-        '分詞': '逐-家｜tak8-ke1',
-        '臺羅閏號調': 'Ta̍k-ke',
-        '通用數字調': 'Dak6-ge1',
-        '吳守禮方音': 'ㄉㄚ㆐ㆶ-ㄍㆤ',
-        '漢字': '逐家',
-        '臺羅數字調': 'Tak8-ke1',
-      }, {
-        '分詞': '逐-家｜tak8-ke1',
-        '臺羅閏號調': 'Ta̍k-ke',
-        '通用數字調': 'Dak6-ge1',
-        '吳守禮方音': 'ㄉㄚ㆐ㆶ-ㄍㆤ',
-        '漢字': '逐家',
-        '臺羅數字調': 'Tak8-ke1',
-      }, ],
-    });
-
-    const store = mockStore({
-      查詢: {
-        '查詢結果': {},
-      },
-    });
-
-    const expectActions = [
-      { type: REQUEST_HANLO, '語句': '逐家！\n逐家' },
-      { type: RECIEVE_HANLO, '語句': '逐家！\n逐家',
-        '查詢結果': {
-          '分詞': '逐-家｜tak8-ke1！ 逐-家｜tak8-ke1',
-          '綜合標音': [{
-            '分詞': '逐-家｜tak8-ke1',
-            '臺羅閏號調': 'Ta̍k-ke',
-            '通用數字調': 'Dak6-ge1',
-            '吳守禮方音': 'ㄉㄚ㆐ㆶ-ㄍㆤ',
-            '漢字': '逐家',
-            '臺羅數字調': 'Tak8-ke1',
-          }, {
-            '分詞': '逐-家｜tak8-ke1',
-            '臺羅閏號調': 'Ta̍k-ke',
-            '通用數字調': 'Dak6-ge1',
-            '吳守禮方音': 'ㄉㄚ㆐ㆶ-ㄍㆤ',
-            '漢字': '逐家',
-            '臺羅數字調': 'Tak8-ke1',
-          }, ],
+      { type: REQUEST_HANLO, 語句: "大家共下來", 腔口: "四縣腔" },
+      { type: RECIEVE_HANLO,
+        語句: "大家共下來",
+        腔口: "四縣腔",
+        查詢結果: {
+          分詞: "大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ",
+          綜合標音: [{
+            分詞: "大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ",
+            漢字: "大家 共下 來",
+            臺灣客話: "Tai-gaˊ kiung-ha loiˇ",
+          }],
         },
-      },];
+      }];
 
-    return store.dispatch(遠端查詢('逐家！\n逐家'))
-      .then(()=> {
+    return store.dispatch(遠端查詢("大家共下來", "四縣腔"))
+      .then(() => {
         expect(store.getActions()).to.eql(expectActions);
       });
   });
 
-  it('catches 500 error', () => {
+  it("creates only one RECIEVE_HANLO for breaklines", () => {
     nock(後端網址)
-    .get('/' + 標漢字音標)
+    .get(`/${標漢字音標}`)
     .query({
-      '查詢腔口': '閩南語',
-      '查詢語句': '逐家',
+      查詢腔口: "四縣腔",
+      查詢語句: "大家\n來",
     })
-    .replyWithError('你糗了你！');
+    .reply(200, {
+      分詞: "大-家｜tai-gaˊ 來｜loiˇ",
+      綜合標音: [{
+        分詞: "大-家｜tai-gaˊ",
+        漢字: "大家",
+        臺灣客話: "Tai-gaˊ",
+      }, {
+        分詞: "來｜loiˇ",
+        漢字: "來",
+        臺灣客話: "loiˇ",
+      }],
+    });
 
     const store = mockStore({
       查詢: {
-        '查詢結果': {},
+        查詢結果: {},
       },
     });
 
     const expectActions = [
-      { type: REQUEST_HANLO, '語句': '逐家' },
-      { type: RECIEVE_ERROR_HANLO, '語句': '逐家' },];
+      { type: REQUEST_HANLO, 語句: "大家\n來", 腔口: "四縣腔" },
+      { type: RECIEVE_HANLO,
+        語句: "大家\n來",
+        腔口: "四縣腔",
+        查詢結果: {
+          分詞: "大-家｜tai-gaˊ 來｜loiˇ",
+          綜合標音: [{
+            分詞: "大-家｜tai-gaˊ",
+            漢字: "大家",
+            臺灣客話: "Tai-gaˊ",
+          }, {
+            分詞: "來｜loiˇ",
+            漢字: "來",
+            臺灣客話: "loiˇ",
+          }],
+        },
+      }];
 
-    return store.dispatch(遠端查詢('逐家'))
-      .then(()=> {
+    return store.dispatch(遠端查詢("大家\n來", "四縣腔"))
+      .then(() => {
         expect(store.getActions()).to.eql(expectActions);
+      });
+  });
+
+  it("catches 500 error after REQUEST_HANLO", () => {
+    nock(後端網址)
+    .get(`/${標漢字音標}`)
+    .query({
+      查詢腔口: "四縣腔",
+      查詢語句: "大家共下來",
+    })
+    .replyWithError("你糗了你！");
+
+    const store = mockStore({
+      查詢: {
+        查詢結果: {},
+      },
+    });
+
+    const expectActions = [
+      { type: REQUEST_HANLO, 語句: "大家共下來", 腔口: "四縣腔" },
+      { type: RECIEVE_ERROR_HANLO,
+        語句: "大家共下來",
+        腔口: "四縣腔",
+        error: {
+          message: "Bad request",
+          name: "SuperagentPromiseError",
+          originalError: "Error: 你糗了你！",
+        },
+      }];
+
+    return store.dispatch(遠端查詢("大家共下來", "四縣腔"))
+      .then(() => {
+        expect(store.getActions()[0]).to.eql(expectActions[0]);
+      });
+  });
+
+  it("catches 500 error when RECIEVE_ERROR_HANLO", () => {
+    nock(後端網址)
+    .get(`/${標漢字音標}`)
+    .query({
+      查詢腔口: "四縣腔",
+      查詢語句: "大家共下來",
+    })
+    .replyWithError("你糗了你！");
+
+    const store = mockStore({
+      查詢: {
+        查詢結果: {},
+      },
+    });
+
+    return store.dispatch(遠端查詢("大家共下來", "四縣腔"))
+      .then(() => {
+        expect(store.getActions()[1]).to.have.deep.property("error");
       });
   });
 });
