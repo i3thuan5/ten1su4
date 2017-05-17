@@ -181,7 +181,7 @@ describe("Action", () => {
       });
   });
 
-  it("catches 500 error", () => {
+  it("catches 500 error after REQUEST_HANLO", () => {
     nock(後端網址)
     .get(`/${標漢字音標}`)
     .query({
@@ -207,6 +207,27 @@ describe("Action", () => {
           originalError: "Error: 你糗了你！",
         },
       }];
+
+    return store.dispatch(遠端查詢("大家共下來", "四縣腔"))
+      .then(() => {
+        expect(store.getActions()[0]).to.eql(expectActions[0]);
+      });
+  });
+
+  it("catches 500 error when RECIEVE_ERROR_HANLO", () => {
+    nock(後端網址)
+    .get(`/${標漢字音標}`)
+    .query({
+      查詢腔口: "四縣腔",
+      查詢語句: "大家共下來",
+    })
+    .replyWithError("你糗了你！");
+
+    const store = mockStore({
+      查詢: {
+        查詢結果: {},
+      },
+    });
 
     return store.dispatch(遠端查詢("大家共下來", "四縣腔"))
       .then(() => {
