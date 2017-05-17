@@ -18,7 +18,7 @@ export default class 網站 extends React.Component {
               this.props.children,
               {
                 語句: ku || 'Tai-gaˊ共下來𢯭手！',
-                腔: khiunn || '四縣腔'
+                腔: khiunn || '四縣腔',
               }
             )
           }

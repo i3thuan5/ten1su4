@@ -10,7 +10,7 @@ import { 後端網址, 標漢字音標 } from '../後端網址';
 export const 請求遠端查詢 = (語句, 腔口) => ({
   type: REQUEST_HANLO,
   語句,
-  腔口
+  腔口,
 });
 
 export const 收到遠端查詢 = (語句, 腔口, body) => ({
@@ -23,7 +23,7 @@ export const 收到遠端查詢 = (語句, 腔口, body) => ({
 export const 遠端查詢發生錯誤 = (語句, 腔口) => ({
   type: RECIEVE_ERROR_HANLO,
   語句,
-  腔口
+  腔口,
 });
 
 export const 遠端查詢 = (語句, 腔口) => dispatch => {
@@ -39,13 +39,14 @@ export const 遠端查詢 = (語句, 腔口) => dispatch => {
 };
 
 export const 是否可以請求查詢 = (state, 語句, 腔口) => {
-  if ((state.查詢.語句 === 語句 && 
-    state.查詢.腔口 === 腔口) || 
+  if ((state.查詢.語句 === 語句 &&
+    state.查詢.腔口 === 腔口) ||
     state.查詢.正在查詢
   )
   {
     return false;
   }
+
   return true;
 };
 

@@ -1,8 +1,8 @@
 import React from 'react';
-import PropTypes from "prop-types";
+import PropTypes from 'prop-types';
 import { browserHistory } from 'react-router';
 import Debug from 'debug';
-import {MainSection} from 'demo-ui';
+import { MainSection } from 'demo-ui';
 import Container翻譯結果 from '../../元素/翻譯/翻譯結果.container';
 import 'semantic-ui-css/components/dropdown.min.css';
 import './查.css';
@@ -44,7 +44,7 @@ class 查 extends React.Component {
           </select>
 
           <div className="app block">
-          <textarea defaultValue={語句} 
+          <textarea defaultValue={語句}
           ref='tt' rows='3' />
           </div>
           
@@ -65,7 +65,7 @@ class 查 extends React.Component {
 }
 
 查.propTypes = {
-  語句: PropTypes.string.isRequired, 
+  語句: PropTypes.string.isRequired,
   腔: PropTypes.string.isRequired,
   正在查詢: PropTypes.bool.isRequired,
 };

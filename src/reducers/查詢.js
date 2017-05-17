@@ -8,12 +8,13 @@ const 初始state = {
   語句: '',
   腔口: '四縣腔',
   正在查詢: false,
-  發生錯誤: false
+  發生錯誤: false,
 };
 
 const 查詢 = (state = 初始state, action) => {
   switch (action.type) {
     case REQUEST_HANLO:
+
       //保留上一次的查詢結果
       return {
         ...state,
@@ -30,7 +31,7 @@ const 查詢 = (state = 初始state, action) => {
       return {
         ...state,
         正在查詢: false,
-        發生錯誤: true
+        發生錯誤: true,
       };
     default:
       return state;

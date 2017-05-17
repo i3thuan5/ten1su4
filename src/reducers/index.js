@@ -4,7 +4,7 @@ import 查詢結果 from './查詢結果';
 
 const reducer = combineReducers({
   查詢,
-  查詢結果
+  查詢結果,
 });
 
 export default reducer;

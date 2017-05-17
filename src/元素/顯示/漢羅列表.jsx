@@ -1,6 +1,6 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { HanLoTsua } from "demo-ui";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { HanLoTsua } from 'demo-ui';
 
 class 漢羅列表 extends React.Component {
 
