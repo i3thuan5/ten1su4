@@ -1,11 +1,7 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Debug from 'debug';
-import { ButtonStack, CopyButton } from 'demo-ui';
-import { 後端網址 } from '../../後端網址';
-import Container漢羅列表 from '../顯示/漢羅列表.container';
-
-var debug = Debug('tau3:標漢字音標結果');
+import React from "react";
+import PropTypes from "prop-types";
+import { ButtonStack, CopyButton } from "demo-ui";
+import Container漢羅列表 from "../顯示/漢羅列表.container";
 
 export const 計算複製內容 = (綜合標音 = []) => {
   if (!綜合標音 || 綜合標音.length < 1) {
@@ -14,25 +10,26 @@ export const 計算複製內容 = (綜合標音 = []) => {
 
   return 綜合標音
   .map((item) => {
-    const 漢字 = item.漢字.replace(/ /g, '');
+    const 漢字 = item.漢字.replace(/ /g, "");
     return {
-      漢字臺羅: [漢字, item.臺灣客話].join('\n'),
+      漢字臺羅: [漢字, item.臺灣客話].join("\n"),
       臺羅: item.臺灣客話,
       漢字,
     };
   })
   .reduce((acc, item) => ({
-    漢字臺羅: [acc.漢字臺羅, item.漢字臺羅].join('\n'),
-    漢字: [acc.漢字, item.漢字].join('\n'),
-    臺羅: [acc.臺羅, item.臺羅].join('\n'),
+    漢字臺羅: [acc.漢字臺羅, item.漢字臺羅].join("\n"),
+    漢字: [acc.漢字, item.漢字].join("\n"),
+    臺羅: [acc.臺羅, item.臺羅].join("\n"),
   }));
 };
 
 class 翻譯結果 extends React.Component {
   取得複製鈕群() {
-    let { 正在查詢, 發生錯誤, 綜合標音, 分詞 } = this.props;
+    const { 正在查詢, 發生錯誤 } = this.props;
+    let { 綜合標音, 分詞 } = this.props;
     綜合標音 = 綜合標音 || [];
-    分詞 = 分詞 || '';
+    分詞 = 分詞 || "";
     let 複製內容 = {};
     if (!正在查詢 && !發生錯誤) {
       複製內容 = 計算複製內容(綜合標音);
@@ -48,8 +45,8 @@ class 翻譯結果 extends React.Component {
     return 複製鈕群;
   }
 
-  render () {
-    let { 正在查詢, 發生錯誤 } = this.props;
+  render() {
+    const { 正在查詢, 發生錯誤 } = this.props;
     const 複製鈕群 = this.取得複製鈕群();
 
     return (
@@ -71,21 +68,19 @@ class 翻譯結果 extends React.Component {
             <Container漢羅列表/>
           </div>
         </div>
-      );
+    );
   }
 }
 
 翻譯結果.propTypes = {
   正在查詢: PropTypes.bool.isRequired,
   發生錯誤: PropTypes.bool.isRequired,
-  查詢結果: PropTypes.shape({
+  分詞: PropTypes.string.isRequired,
+  綜合標音: PropTypes.arrayOf(PropTypes.shape({
     分詞: PropTypes.string.isRequired,
-    綜合標音: PropTypes.arrayOf(PropTypes.shape({
-      分詞: PropTypes.string.isRequired,
-      漢字: PropTypes.string.isRequired,
-      臺灣客話: PropTypes.string.isRequired,
-    })).isRequired,
-  }),
+    漢字: PropTypes.string.isRequired,
+    臺灣客話: PropTypes.string.isRequired,
+  })),
 };
 
 export default 翻譯結果;

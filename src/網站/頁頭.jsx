@@ -1,10 +1,7 @@
-import React from 'react';
-import { Link } from 'react-router';
+import React from "react";
 
-export default class 頁頭 extends React.Component {
-  render () {
-    return (
-      <div className='app block'/>
-    );
-  }
-}
+const 頁頭 = () => (
+  <div className='app block'/>
+);
+
+export default 頁頭;

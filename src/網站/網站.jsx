@@ -1,14 +1,13 @@
-import React from 'react';
-import 頁頭 from './頁頭';
-import 頁尾 from './頁尾';
-import { Layout } from 'demo-ui';
-import Debug from 'debug';
-var debug = Debug('tau3:網站');
+import React from "react";
+import PropTypes from "prop-types";
+import { Layout } from "demo-ui";
+import 頁頭 from "./頁頭";
+import 頁尾 from "./頁尾";
 
-export default class 網站 extends React.Component {
+class 網站 extends React.Component {
 
-  render () {
-    let { ku, khiunn } = this.props.params;
+  render() {
+    const { ku, khiunn } = this.props.params;
 
     return (
         <Layout>
@@ -17,14 +16,24 @@ export default class 網站 extends React.Component {
             React.cloneElement(
               this.props.children,
               {
-                語句: ku || 'Tai-gaˊ共下來𢯭手！',
-                腔: khiunn || '四縣腔',
-              }
+                語句: ku || "Tai-gaˊ共下來𢯭手！",
+                腔: khiunn || "四縣腔",
+              },
             )
           }
           <頁尾/>
         </Layout>
-      );
+    );
   }
 }
 
+
+網站.propTypes = {
+  params: PropTypes.shape({
+    ku: PropTypes.string,
+    khiunn: PropTypes.string,
+  }),
+  children: PropTypes.node.isRequired,
+};
+
+export default 網站;
