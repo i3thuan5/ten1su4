@@ -1,7 +1,7 @@
 import React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
-import { HanLoTsua } from "demo-ui";
+import { HanLoTsua, 意傳服務 as API } from "demo-ui";
 import 漢羅列表 from "../../src/元素/顯示/漢羅列表";
 
 
@@ -46,10 +46,13 @@ describe("Component", () => {
     it("passes props to 漢羅一逝", () => {
       const { 漢羅逝 } = setup();
       expect(漢羅逝.props()).to.eql({
-        腔口: "四縣腔",
-        臺羅閏號調: "Tai-gaˊ kiung-ha loiˇ",
-        漢字: "大家 共下 來",
-        分詞: "大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ",
+        src: API.語音合成({
+          分詞: 一標音[0].分詞,
+          腔口: initArgv.結果腔口,
+        }),
+        臺羅閏號調: 一標音[0].臺灣客話,
+        漢字: 一標音[0].漢字,
+        是否合音: true,
       });
     });
     it("renders none", () => {

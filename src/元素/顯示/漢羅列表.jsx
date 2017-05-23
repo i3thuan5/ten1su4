@@ -1,21 +1,27 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { HanLoTsua } from "demo-ui";
+import { HanLoTsua, 意傳服務 } from "demo-ui";
 
 class 漢羅列表 extends React.Component {
 
   render() {
     const { 結果腔口, 綜合標音 } = this.props;
+    let src;
     return (
       <div>
-      {綜合標音.map((綜音, i) => (
+      {綜合標音.map((綜音, i) => {
+        src = 意傳服務.語音合成({
+          腔口: 結果腔口,
+          分詞: 綜音.分詞,
+        });
+        return (
         <HanLoTsua
           key={i}
-          腔口={結果腔口}
+          src={src}
           漢字={綜音.漢字}
-          臺羅閏號調={綜音.臺灣客話}
-          分詞={綜音.分詞}/>
-        ))}
+          臺羅閏號調={綜音.臺灣客話}/>
+        );
+      })}
       </div>
     );
   }
