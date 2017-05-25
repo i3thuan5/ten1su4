@@ -4,6 +4,7 @@ import {
   ButtonStack,
   CopyButton,
   DownloadButton,
+  意傳服務,
 } from "demo-ui";
 import Container漢羅列表 from "../顯示/漢羅列表.container";
 
@@ -54,7 +55,7 @@ class 翻譯結果 extends React.Component {
     const 複製鈕群 = this.取得複製鈕群();
     let { 分詞 } = this.props;
     分詞 = 分詞 || "";
-
+    const src = 意傳服務.語音合成({ 腔口, 分詞 });
     return (
         <div>
           {
@@ -72,7 +73,7 @@ class 翻譯結果 extends React.Component {
             {複製鈕群}
             </ButtonStack>
             <div className='app block'>
-              <DownloadButton 腔口={腔口} 分詞={分詞}>
+              <DownloadButton src={src}>
                 整段下載
               </DownloadButton>
             </div>
