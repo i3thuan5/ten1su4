@@ -1,6 +1,6 @@
 import nock from "nock";
 import { expect } from "chai";
-import configureMockStore from "redux-mock-store";
+import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
 import {
   REQUEST_HANLO,
@@ -14,7 +14,7 @@ import {
 import { 後端網址, 標漢字音標 } from "../../src/後端網址";
 
 const middlewares = [thunk];
-const mockStore = configureMockStore(middlewares);
+const mockStore = configureStore(middlewares);
 
 describe("Action", () => {
   afterEach(() => {
