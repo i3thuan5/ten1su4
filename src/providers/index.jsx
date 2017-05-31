@@ -5,9 +5,9 @@ import thunk from "redux-thunk";
 import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import createLogger from "redux-logger";
-import 網站 from "./網站/網站";
-import 查 from "./頁/查/查.container";
-import reducer from "./reducers";
+import 網站 from "../網站/網站";
+import 查 from "../頁/查/查.container";
+import reducer from "../reducers";
 
 class MyProvider extends React.Component {
 
@@ -27,7 +27,7 @@ class MyProvider extends React.Component {
     return (
       <Provider store={store}>
         <Router history={browserHistory}>
-          <Route path='/' component={網站 }>
+          <Route path='/' component={網站}>
             <IndexRoute component={查}/>
             <Route path='%E8%AC%9B/:khiunn/:ku' component={查}/>
             <Route path='%E8%AC%9B(/:ku)' component={查}/>
