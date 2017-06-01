@@ -11,19 +11,20 @@ import reducer from "../reducers";
 
 class MyProvider extends React.Component {
 
-  render() {
+  getAppStore() {
     const middlewares = [thunk];
     if (process.env.NODE_ENV !== "production") {
       middlewares.push(createLogger);
     }
-
     const store = createStore(
       reducer,
       applyMiddleware(...middlewares),
     );
+    return store;
+  }
 
-    console.log(this.props.iniStore);
-
+  render() {
+    const store = this.getAppStore();
     return (
       <Provider store={store}>
         <Router history={browserHistory}>

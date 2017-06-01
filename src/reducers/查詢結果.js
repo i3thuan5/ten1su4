@@ -1,16 +1,17 @@
+import config from "../config";
 import {
   RECIEVE_HANLO,
   RECIEVE_ERROR_HANLO,
 } from "../actions/action.type";
 
-const 初始state = {
+const 初始state = () => ({
   結果語句: "",
-  結果腔口: "四縣腔",
+  結果腔口: config.預設腔口(),
   分詞: "",
   綜合標音: [],
-};
+});
 
-const 查詢結果 = (state = 初始state, action) => {
+const 查詢結果 = (state = 初始state(), action) => {
   switch (action.type) {
   case RECIEVE_HANLO:
     return {

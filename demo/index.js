@@ -8,9 +8,6 @@ const root = document.getElementById("app");
 // min, hakka, or uan
 
 render(
-  <MyProvider iniStore={{
-    專案: "鬥拍字",
-    腔口: "四縣腔",
-  }}/>
+  <MyProvider/>
   , root,
 );
