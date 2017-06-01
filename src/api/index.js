@@ -1,0 +1,27 @@
+import config from "../config";
+
+const api = {};
+const self = api;
+
+api.網域 = () => ("https://服務.意傳.台灣/");
+
+api.標漢字音標 = () => encodeURI(`${self.網域()}標漢字音標`);
+
+api.正規化翻譯 = () => encodeURI(`${self.網域()}正規化翻譯`);
+
+api.語音合成 = ({ 腔口 = "", 分詞 = "" } = {}) =>
+  encodeURI(`${self.網域()}語音合成?` +
+    `查詢腔口=${腔口}&查詢語句=${分詞}`);
+
+api.取得查詢函式名稱 = (專案 = config.專案()) => {
+  switch (專案) {
+  case "寫啥物":
+    return "正規化翻譯";
+  case "鬥拍字":
+  default:
+    return "標漢字音標";
+  }
+  return null;
+};
+
+export default api;
