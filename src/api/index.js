@@ -5,9 +5,9 @@ const self = api;
 
 api.網域 = () => ("https://服務.意傳.台灣/");
 
-api.標漢字音標 = () => encodeURI(`${self.網域()}標漢字音標`);
+api.標漢字音標 = () => `${self.網域()}標漢字音標`;
 
-api.正規化翻譯 = () => encodeURI(`${self.網域()}正規化翻譯`);
+api.正規化翻譯 = () => `${self.網域()}正規化翻譯`;
 
 api.語音合成 = ({ 腔口 = "", 分詞 = "" } = {}) =>
   encodeURI(`${self.網域()}語音合成?` +
@@ -23,5 +23,8 @@ api.取得查詢函式名稱 = (專案 = config.專案()) => {
   }
   return null;
 };
+
+api.取得查詢函式 = (專案 = config.專案()) =>
+  api[self.取得查詢函式名稱(專案)];
 
 export default api;

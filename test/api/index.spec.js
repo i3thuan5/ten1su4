@@ -18,19 +18,21 @@ describe("API", () => {
     const funcName = API.取得查詢函式名稱();
     expect(funcName).to.equal("正規化翻譯");
   });
-  it("取得查詢函式名稱 config專案=鬥拍字 API是標漢字音標", () => {
+  it("取得查詢函式名稱 鬥拍字", () => {
     const funcName = API.取得查詢函式名稱("鬥拍字");
     expect(funcName).to.equal("標漢字音標");
   });
-  it("取得查詢函式名稱 config專案=寫啥物 API是正規化翻譯", () => {
+  it("取得查詢函式名稱 寫啥物", () => {
     const funcName = API.取得查詢函式名稱("寫啥物");
     expect(funcName).to.equal("正規化翻譯");
   });
-  it("能用函式名稱呼叫函式", () => {
-    const funcName = "標漢字音標";
-    const api = API[funcName];
-    expect(api()).to.equal(
-      encodeURI(`${domain}標漢字音標`));
+  it("回傳對應名稱函式 鬥拍字", () => {
+    const func = API.取得查詢函式("鬥拍字");
+    expect(func()).to.equal(`${domain}標漢字音標`);
+  });
+  it("回傳對應名稱函式 寫啥物", () => {
+    const func = API.取得查詢函式("寫啥物");
+    expect(func()).to.equal(`${domain}正規化翻譯`);
   });
   it("returns 語音合成 閩南語", () => {
     const url = API.語音合成({

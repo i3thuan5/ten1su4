@@ -2,6 +2,9 @@ import nock from "nock";
 import { expect } from "chai";
 import configureStore from "redux-mock-store";
 import thunk from "redux-thunk";
+import sinon from "sinon";
+import config from "../../src/config";
+import API from "../../src/api";
 import {
   REQUEST_HANLO,
   RECIEVE_HANLO,
@@ -11,14 +14,23 @@ import {
   是否可以請求查詢,
   遠端查詢,
 } from "../../src/actions/";
-import { 後端網址, 標漢字音標 } from "../../src/後端網址";
 
-const middlewares = [thunk];
-const mockStore = configureStore(middlewares);
 
 describe("Action", () => {
+  const middlewares = [thunk];
+  const mockStore = configureStore(middlewares);
+  let sandbox;
+  const stubConfig = (property, returnValue) => {
+    sandbox.stub(config, property)
+    .callsFake(() => (returnValue));
+  };
+
+  beforeEach(() => {
+    sandbox = sinon.sandbox.create();
+  });
   afterEach(() => {
     nock.cleanAll();
+    sandbox.restore();
   });
 
   it("查新語句", () => {
@@ -88,8 +100,11 @@ describe("Action", () => {
   });
 
   it("creates RECIEVE_HANLO when fetching data is done", () => {
-    nock(後端網址)
-    .get(`/${標漢字音標}`)
+    // mock config 專案 = 鬥拍字 for nock.get()
+    stubConfig("專案", "鬥拍字");
+
+    nock(API.網域())
+    .get("/標漢字音標")
     .query({
       查詢腔口: "四縣腔",
       查詢語句: "大家共下來",
@@ -124,6 +139,54 @@ describe("Action", () => {
         },
       }];
 
+
+    return store.dispatch(遠端查詢("大家共下來", "四縣腔"))
+      .then(() => {
+        expect(store.getActions()).to.eql(expectActions);
+      });
+  });
+
+  it("creates RECIEVE_HANLO after done (寫啥物)", () => {
+    // mock config 專案 = 寫啥物 for nock.get()
+    stubConfig("專案", "寫啥物");
+
+    nock(API.網域())
+    .get("/正規化翻譯")
+    .query({
+      查詢腔口: "四縣腔",
+      查詢語句: "大家共下來",
+    })
+    .reply(200, {
+      分詞: "大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ",
+      綜合標音: [{
+        分詞: "大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ",
+        漢字: "大家 共下 來",
+        臺灣客話: "Tai-gaˊ kiung-ha loiˇ",
+      }],
+    });
+
+    const store = mockStore({
+      查詢: {
+        查詢結果: {},
+      },
+    });
+
+    const expectActions = [
+      { type: REQUEST_HANLO, 語句: "大家共下來", 腔口: "四縣腔" },
+      { type: RECIEVE_HANLO,
+        語句: "大家共下來",
+        腔口: "四縣腔",
+        查詢結果: {
+          分詞: "大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ",
+          綜合標音: [{
+            分詞: "大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ",
+            漢字: "大家 共下 來",
+            臺灣客話: "Tai-gaˊ kiung-ha loiˇ",
+          }],
+        },
+      }];
+
+
     return store.dispatch(遠端查詢("大家共下來", "四縣腔"))
       .then(() => {
         expect(store.getActions()).to.eql(expectActions);
@@ -131,8 +194,11 @@ describe("Action", () => {
   });
 
   it("creates only one RECIEVE_HANLO for breaklines", () => {
-    nock(後端網址)
-    .get(`/${標漢字音標}`)
+    // mock config 專案 = 鬥拍字 for nock.get()
+    stubConfig("專案", "鬥拍字");
+
+    nock(API.網域())
+    .get("/標漢字音標")
     .query({
       查詢腔口: "四縣腔",
       查詢語句: "大家\n來",
@@ -182,8 +248,11 @@ describe("Action", () => {
   });
 
   it("catches 500 error after REQUEST_HANLO", () => {
-    nock(後端網址)
-    .get(`/${標漢字音標}`)
+    // mock config 專案 = 鬥拍字 for nock.get()
+    stubConfig("專案", "鬥拍字");
+
+    nock(API.網域())
+    .get("標漢字音標")
     .query({
       查詢腔口: "四縣腔",
       查詢語句: "大家共下來",
@@ -215,8 +284,11 @@ describe("Action", () => {
   });
 
   it("catches 500 error when RECIEVE_ERROR_HANLO", () => {
-    nock(後端網址)
-    .get(`/${標漢字音標}`)
+    // mock config 專案 = 鬥拍字 for nock.get()
+    stubConfig("專案", "鬥拍字");
+
+    nock(API.網域())
+    .get("標漢字音標")
     .query({
       查詢腔口: "四縣腔",
       查詢語句: "大家共下來",
@@ -231,6 +303,37 @@ describe("Action", () => {
 
     return store.dispatch(遠端查詢("大家共下來", "四縣腔"))
       .then(() => {
+        // console.log(store.getActions()[1]);
+        expect(store.getActions()[1]).to.have.deep.property("error");
+      });
+  });
+
+  it("catches 500 error when RECIEVE_ERROR_HANLO", () => {
+    // test unmatched url
+    //
+    // Assume the correct url is '正規化翻譯'
+    // but got wrong url '標漢字音標'.
+    //
+    // mock config 專案 = 鬥拍字 for nock.get()
+    stubConfig("專案", "鬥拍字");
+
+    nock(API.網域())
+    .get("正規化翻譯")
+    .query({
+      查詢腔口: "四縣腔",
+      查詢語句: "大家共下來",
+    })
+    .replyWithError("你糗了你！");
+
+    const store = mockStore({
+      查詢: {
+        查詢結果: {},
+      },
+    });
+
+    return store.dispatch(遠端查詢("大家共下來", "四縣腔"))
+      .then(() => {
+        // console.log(store.getActions()[1]);
         expect(store.getActions()[1]).to.have.deep.property("error");
       });
   });
