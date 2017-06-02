@@ -72,7 +72,7 @@ class 翻譯結果 extends React.Component {
   綜合標音: PropTypes.arrayOf(PropTypes.shape({
     分詞: PropTypes.string.isRequired,
     漢字: PropTypes.string.isRequired,
-    臺灣客話: PropTypes.string.isRequired,
+    羅馬字: PropTypes.string.isRequired,
   })),
 };
 
