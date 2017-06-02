@@ -4,7 +4,6 @@ import { shallow } from "enzyme";
 import { HanLoTsua, 意傳服務 as API } from "demo-ui";
 import 漢羅列表 from "../../src/元素/顯示/漢羅列表";
 
-
 const 一標音 = [{
   分詞: "大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ",
   漢字: "大家 共下 來",
