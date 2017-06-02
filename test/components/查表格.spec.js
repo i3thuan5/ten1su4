@@ -1,7 +1,8 @@
+import "jsdom-global/register";
 import React from "react";
 import sinon from "sinon";
 import { expect } from "chai";
-import { shallow } from "enzyme";
+import { shallow, mount } from "enzyme";
 import 查表格, { 取得新網址 } from "../../src/頁/查/查表格";
 import config from "../../src/config";
 
@@ -18,10 +19,17 @@ const setup = (argv = initArgv) => {
   return {
     component,
     button: component.find("button"),
+  };
+};
+const setupMount = (argv = initArgv) => {
+  const component = mount(
+    <查表格 {...argv}
+      requestSearch={sinon.spy()}/>,
+    );
+  return {
     select: component.find("select"),
   };
 };
-
 describe("元素", () => {
   describe("查表格", () => {
     let sandbox;
@@ -44,17 +52,17 @@ describe("元素", () => {
     });
     it("config全部腔口>1 顯示選單", () => {
       stubConfig("全部腔口", ["大埔腔", "饒平腔"]);
-      const { select } = setup();
+      const { select } = setupMount();
       expect(select.exists()).to.equal(true);
     });
-    it("config全部腔口>1 項目等同config全部腔口", () => {
+    it("config全部腔口>1 選單等同config全部腔口", () => {
       stubConfig("全部腔口", ["大埔腔", "饒平腔"]);
-      const { select } = setup();
+      const { select } = setupMount();
       expect(select.childAt(0).text()).to.equal("大埔腔");
     });
     it("config全部腔口=1 不顯示選單", () => {
       stubConfig("全部腔口", ["大埔腔"]);
-      const { select } = setup();
+      const { select } = setupMount();
       expect(select.exists()).to.equal(false);
     });
     it("config全部腔口>1 新網址/{腔}/{語句}", () => {

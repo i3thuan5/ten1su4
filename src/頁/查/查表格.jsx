@@ -21,11 +21,13 @@ class 查表格 extends React.Component {
     super(props);
     this.state = {
       showSelect: config.全部腔口().length > 1,
+      menu: null,
     };
   }
   componentDidMount() {
     const { 語句, 腔, requestSearch } = this.props;
     requestSearch(語句, 腔);
+    this.setState({ menu: this.getMenu() });
   }
 
   送出(e) {
@@ -58,7 +60,7 @@ class 查表格 extends React.Component {
 
   render() {
     const { 語句, 腔, 正在查詢 } = this.props;
-    const menu = this.getMenu();
+    const { menu } = this.state;
     return (
       <form className='ui form'
        onSubmit={this.送出.bind(this)}>
