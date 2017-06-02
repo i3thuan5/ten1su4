@@ -2,15 +2,27 @@ import React from "react";
 import PropTypes from "prop-types";
 import { browserHistory } from "react-router";
 import "semantic-ui-css/components/dropdown.min.css";
+import config from "../../config";
 
-const 更新網址 = (語句, 腔) => {
-  browserHistory.replace(
-    `/%E8%AC%9B/${腔}/${encodeURI(語句)}`);
+const 更新網址 = (語句, 腔) =>
+  browserHistory.replace(取得新網址(語句, 腔));
+
+export const 取得新網址 = (語句, 腔) => {
+  if (config.全部腔口().length > 1) {
+    return (
+      `/%E8%AC%9B/${腔}/${encodeURI(語句)}`);
+  }
+  return (
+      `/%E8%AC%9B/${encodeURI(語句)}`);
 };
 
-
 class 查表格 extends React.Component {
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      showSelect: config.全部腔口().length > 1,
+    };
+  }
   componentDidMount() {
     const { 語句, 腔, requestSearch } = this.props;
     requestSearch(語句, 腔);
@@ -19,24 +31,39 @@ class 查表格 extends React.Component {
   送出(e) {
     e.preventDefault();
     const tt = this.refText;
-    const sel = this.refSelect;
+    const 腔 = this.refSelect.value || this.props.腔;
     const { requestSearch } = this.props;
-    requestSearch(tt.value, sel.value);
-    更新網址(tt.value, sel.value);
+    requestSearch(tt.value, 腔);
+    更新網址(tt.value, 腔);
+  }
+
+  getMenu() {
+    const { showSelect } = this.state;
+    const { 腔 } = this.props;
+    if (showSelect) {
+      return (
+        <select defaultValue={腔}
+        ref={(c) => { this.refSelect = c; }}
+        className="ui dropdown">
+          {
+            config.全部腔口().map((t, k) => (
+              <option value={t} key={k}>{t}</option>
+            ))
+          }
+        </select>
+      );
+    }
+    return null;
   }
 
   render() {
     const { 語句, 腔, 正在查詢 } = this.props;
+    const menu = this.getMenu();
     return (
       <form className='ui form'
        onSubmit={this.送出.bind(this)}>
 
-        <select defaultValue={腔}
-        ref={(c) => { this.refSelect = c; }}
-        className="ui dropdown">
-          <option value="四縣腔">四縣腔</option>
-          <option value="海陸腔">海陸腔</option>
-        </select>
+        {menu}
 
         <div className="app block">
         <textarea defaultValue={語句}

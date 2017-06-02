@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { Layout } from "demo-ui";
 import 頁頭 from "./頁頭";
 import 頁尾 from "./頁尾";
+import config from "../config";
 
 class 網站 extends React.Component {
 
@@ -17,7 +18,7 @@ class 網站 extends React.Component {
               this.props.children,
               {
                 語句: ku || "Tai-gaˊ共下來𢯭手！",
-                腔: khiunn || "四縣腔",
+                腔: khiunn || config.預設腔口(),
               },
             )
           }
