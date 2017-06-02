@@ -18,7 +18,7 @@ const 查詢結果 = (state = 初始state(), action) => {
       結果語句: action.語句,
       結果腔口: action.腔口,
       分詞: action.查詢結果.分詞,
-      綜合標音: action.查詢結果.綜合標音,
+      綜合標音: 正規化綜合標音(action.查詢結果.綜合標音),
     };
   case RECIEVE_ERROR_HANLO:
     return {
@@ -33,6 +33,23 @@ const 查詢結果 = (state = 初始state(), action) => {
   default:
     return state;
   }
+};
+
+export const 正規化綜合標音 = (綜合標音 = []) => {
+  if (!綜合標音 || 綜合標音.length == 0) {
+    return [];
+  }
+  const first = 綜合標音[0];
+  const keys = Object.keys(first);
+  const newKeys = keys.filter(x => (x != "臺羅閏號調" && x != "臺灣客話"));
+  return 綜合標音.map((t) => {
+    const result = {};
+    result.羅馬字 = t.臺羅閏號調 || t.臺灣客話;
+    for (const k of newKeys) {
+      result[k] = t[k];
+    }
+    return result;
+  });
 };
 
 export default 查詢結果;

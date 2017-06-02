@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import sinon from "sinon";
-import API from "../../src/api";
+import API, { 全部標音鍵 } from "../../src/api";
 import config from "../../src/config";
 
 describe("API", () => {
