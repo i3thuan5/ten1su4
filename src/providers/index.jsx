@@ -6,7 +6,7 @@ import { Provider } from "react-redux";
 import { createStore, applyMiddleware } from "redux";
 import createLogger from "redux-logger";
 import 網站 from "../網站/網站";
-import 查 from "../頁/查/查.container";
+import 查 from "../頁/查/查";
 import reducer from "../reducers";
 
 class MyProvider extends React.Component {

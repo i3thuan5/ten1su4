@@ -1,5 +1,5 @@
 import { connect } from "react-redux";
-import 查 from "./查";
+import 查表格 from "./查表格";
 import { 查詢語句 } from "../../actions";
 
 // props from router params
@@ -13,9 +13,9 @@ const matchDispatchToProps = dispatch => ({
   requestSearch: (語句, 腔) => { dispatch(查詢語句(語句, 腔)); },
 });
 
-const Container查詢 = connect(
+const Container查表格 = connect(
   matchStateToProps,
   matchDispatchToProps,
-)(查);
+)(查表格);
 
-export default Container查詢;
+export default Container查表格;
