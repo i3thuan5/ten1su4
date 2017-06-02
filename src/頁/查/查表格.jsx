@@ -7,6 +7,7 @@ import config from "../../config";
 const 更新網址 = (語句, 腔) =>
   browserHistory.replace(取得新網址(語句, 腔));
 
+
 export const 取得新網址 = (語句, 腔) => {
   if (config.全部腔口().length > 1) {
     return (
@@ -30,13 +31,17 @@ class 查表格 extends React.Component {
     this.setState({ menu: this.getMenu() });
   }
 
+  取得腔值() {
+    const { 腔 } = this.props;
+    return (this.refSelect) ?
+      this.refSelect.value : 腔;
+  }
   送出(e) {
     e.preventDefault();
     const tt = this.refText;
-    const 腔 = this.refSelect.value || this.props.腔;
-    const { requestSearch } = this.props;
-    requestSearch(tt.value, 腔);
-    更新網址(tt.value, 腔);
+    const 腔值 = this.取得腔值();
+    this.props.requestSearch(tt.value, 腔值);
+    更新網址(tt.value, 腔值);
   }
 
   getMenu() {
