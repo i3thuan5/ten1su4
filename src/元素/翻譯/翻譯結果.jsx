@@ -1,9 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import {
+  Block,
   ButtonStack,
   CopyButton,
   DownloadButton,
+  PlayButton,
   意傳服務,
 } from "demo-ui";
 import Container漢羅列表 from "../顯示/漢羅列表.container";
@@ -30,7 +32,7 @@ class 翻譯結果 extends React.Component {
     return 複製鈕群;
   }
 
-  取得整段下載鈕() {
+  取得整段鈕群() {
     let { 綜合標音, 分詞 } = this.props;
     綜合標音 = 綜合標音 || [];
     if (綜合標音.length > 0) {
@@ -38,9 +40,14 @@ class 翻譯結果 extends React.Component {
       const { 腔口 } = this.props;
       const src = 意傳服務.語音合成({ 腔口, 分詞 });
       return (
-        <DownloadButton src={src}>
-        整段下載
-        </DownloadButton>
+        <Block>
+          <DownloadButton src={src}>
+            整段下載
+          </DownloadButton>
+          <PlayButton src={src}>
+            整段播放
+          </PlayButton>
+        </Block>
       );
     }
     return null;
@@ -49,7 +56,7 @@ class 翻譯結果 extends React.Component {
   render() {
     const { 正在查詢, 發生錯誤 } = this.props;
     const 複製鈕群 = this.取得複製鈕群();
-    const 整段下載鈕 = this.取得整段下載鈕();
+    const 整段鈕群 = this.取得整段鈕群();
     return (
         <div>
           {
@@ -67,7 +74,7 @@ class 翻譯結果 extends React.Component {
             {複製鈕群}
             </ButtonStack>
             <div className='app block'>
-              {整段下載鈕}
+              {整段鈕群}
             </div>
             <Container漢羅列表/>
           </div>

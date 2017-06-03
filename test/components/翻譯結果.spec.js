@@ -1,7 +1,7 @@
 import React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
-import { CopyButton, DownloadButton } from "demo-ui";
+import { CopyButton, DownloadButton, PlayButton } from "demo-ui";
 import 翻譯結果 from "../../src/元素/翻譯/翻譯結果";
 
 const 一標音 = [{
@@ -27,6 +27,7 @@ const setup = (argv = initArgv) => {
     header: component.find(".header"),
     copyBtn: component.find(CopyButton),
     downBtn: component.find(DownloadButton),
+    playBtn: component.find(PlayButton),
   };
 };
 
@@ -47,9 +48,10 @@ describe("元素", () => {
       expect(header.at(0).text()).match(/^主機發生錯誤/);
     });
     it("空查詢結果 不顯示任何按鈕", () => {
-      const { copyBtn, downBtn } = setup();
+      const { copyBtn, downBtn, playBtn } = setup();
       expect(copyBtn.length).to.equal(0);
       expect(downBtn.length).to.equal(0);
+      expect(playBtn.length).to.equal(0);
     });
     it("有查詢結果 顯示複製鈕群", () => {
       const { copyBtn } = setup({
@@ -64,6 +66,13 @@ describe("元素", () => {
         綜合標音: 一標音,
       });
       expect(downBtn.length).to.equal(1);
+    });
+    it("有查詢結果 顯示整段播放鈕", () => {
+      const { playBtn } = setup({
+        ...initArgv,
+        綜合標音: 一標音,
+      });
+      expect(playBtn.length).to.equal(1);
     });
   });
 });
