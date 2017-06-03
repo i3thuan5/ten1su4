@@ -7,7 +7,7 @@ import {
 
 const 初始state = () => ({
   語句: "",
-  腔口: config.預設腔口(),
+  腔口: "",
   正在查詢: false,
   發生錯誤: false,
 });

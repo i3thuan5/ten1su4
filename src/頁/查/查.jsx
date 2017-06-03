@@ -7,7 +7,6 @@ import "./查.css";
 class 查 extends React.Component {
 
   render() {
-    console.log(this.props);
     return (
       <MainSection>
         <Container查表格 {...this.props}/>

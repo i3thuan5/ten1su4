@@ -17,7 +17,7 @@ class 網站 extends React.Component {
             React.cloneElement(
               this.props.children,
               {
-                語句: ku || "Tai-gaˊ共下來𢯭手！",
+                語句: ku || config.範例查詢(),
                 腔: khiunn || config.預設腔口(),
               },
             )

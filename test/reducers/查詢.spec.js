@@ -3,7 +3,7 @@ import 查詢 from "../../src/reducers/查詢";
 
 const 初始狀態規範 = {
   語句: "",
-  腔口: "四縣腔",
+  腔口: "",
   正在查詢: false,
   發生錯誤: false,
 };
