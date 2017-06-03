@@ -16,7 +16,7 @@ class 翻譯結果 extends React.Component {
     綜合標音 = 綜合標音 || [];
     分詞 = 分詞 || "";
     let 複製內容 = {};
-    if (!正在查詢 && !發生錯誤) {
+    if (!正在查詢 && !發生錯誤 && 綜合標音.length > 0) {
       複製內容 = 計算複製內容(綜合標音);
       複製內容.分詞 = 分詞;
     }
@@ -30,12 +30,26 @@ class 翻譯結果 extends React.Component {
     return 複製鈕群;
   }
 
+  取得整段下載鈕() {
+    let { 綜合標音, 分詞 } = this.props;
+    綜合標音 = 綜合標音 || [];
+    if (綜合標音.length > 0) {
+      分詞 = 分詞 || "";
+      const { 腔口 } = this.props;
+      const src = 意傳服務.語音合成({ 腔口, 分詞 });
+      return (
+        <DownloadButton src={src}>
+        整段下載
+        </DownloadButton>
+      );
+    }
+    return null;
+  }
+
   render() {
-    const { 正在查詢, 發生錯誤, 腔口 } = this.props;
+    const { 正在查詢, 發生錯誤 } = this.props;
     const 複製鈕群 = this.取得複製鈕群();
-    let { 分詞 } = this.props;
-    分詞 = 分詞 || "";
-    const src = 意傳服務.語音合成({ 腔口, 分詞 });
+    const 整段下載鈕 = this.取得整段下載鈕();
     return (
         <div>
           {
@@ -53,9 +67,7 @@ class 翻譯結果 extends React.Component {
             {複製鈕群}
             </ButtonStack>
             <div className='app block'>
-              <DownloadButton src={src}>
-                整段下載
-              </DownloadButton>
+              {整段下載鈕}
             </div>
             <Container漢羅列表/>
           </div>
