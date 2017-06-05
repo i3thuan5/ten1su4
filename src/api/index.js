@@ -18,10 +18,10 @@ api.取得查詢函式名稱 = (專案 = config.專案()) => {
   case "寫啥物":
     return "正規化翻譯";
   case "鬥拍字":
-  default:
     return "標漢字音標";
+  default:
+    return null;
   }
-  return null;
 };
 
 api.取得查詢函式 = (專案 = config.專案()) =>

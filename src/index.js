@@ -1,1 +1,1 @@
-export { default as MyProvider } from "./providers";
+export default from "./providers";
