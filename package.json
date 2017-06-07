@@ -2,6 +2,7 @@
   "name": "ten1su4",
   "version": "0.0.1",
   "description": "ten1su4",
+  "main": "lib/index.js",
   "scripts": {
     "start": "node devServer.js",
     "test": "NODE_ENV=test mocha --compilers js:babel-register,css:app-css-dnt-compiler --recursive",
