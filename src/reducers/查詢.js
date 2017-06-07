@@ -4,18 +4,16 @@ import {
   RECIEVE_ERROR_HANLO,
 } from "../actions/action.type";
 
-const 初始state = {
+const 初始state = () => ({
   語句: "",
-  腔口: "四縣腔",
+  腔口: "",
   正在查詢: false,
   發生錯誤: false,
-};
+});
 
-const 查詢 = (state = 初始state, action) => {
+const 查詢 = (state = 初始state(), action) => {
   switch (action.type) {
   case REQUEST_HANLO:
-
-      // 保留上一次的查詢結果
     return {
       ...state,
       語句: action.語句,
