@@ -1,8 +1,24 @@
-import config from "../config";
 import {
   RECIEVE_HANLO,
   RECIEVE_ERROR_HANLO,
 } from "../actions/action.type";
+
+export const 正規化綜合標音 = (綜合標音 = []) => {
+  if (!綜合標音 || 綜合標音.length === 0) {
+    return [];
+  }
+  const first = 綜合標音[0];
+  const keys = Object.keys(first);
+  const newKeys = keys.filter(x => (
+    x !== "臺羅閏號調" && x !== "臺灣客話"
+  ));
+  return 綜合標音.map((t) => {
+    const result = {};
+    result.羅馬字 = t.臺羅閏號調 || t.臺灣客話;
+    newKeys.forEach((k) => { result[k] = t[k]; });
+    return result;
+  });
+};
 
 const 初始state = () => ({
   結果語句: "",
@@ -33,23 +49,6 @@ const 查詢結果 = (state = 初始state(), action) => {
   default:
     return state;
   }
-};
-
-export const 正規化綜合標音 = (綜合標音 = []) => {
-  if (!綜合標音 || 綜合標音.length == 0) {
-    return [];
-  }
-  const first = 綜合標音[0];
-  const keys = Object.keys(first);
-  const newKeys = keys.filter(x => (x != "臺羅閏號調" && x != "臺灣客話"));
-  return 綜合標音.map((t) => {
-    const result = {};
-    result.羅馬字 = t.臺羅閏號調 || t.臺灣客話;
-    for (const k of newKeys) {
-      result[k] = t[k];
-    }
-    return result;
-  });
 };
 
 export default 查詢結果;

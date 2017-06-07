@@ -1,7 +1,7 @@
 {
-  "name": "tau3_phah4-ji7",
+  "name": "ten1su4",
   "version": "0.0.1",
-  "description": "鬥拍字",
+  "description": "ten1su4",
   "scripts": {
     "start": "node devServer.js",
     "test": "NODE_ENV=test mocha --compilers js:babel-register,css:app-css-dnt-compiler --recursive",
@@ -12,7 +12,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/sih4sing5hong5/tau3_phah4-ji7.git"
+    "url": "https://github.com/i3thuan5/ten1su4.git"
   },
   "keywords": [
     "臺語",
@@ -21,9 +21,9 @@
   "author": "薛丞宏",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/sih4sing5hong5/tau3_phah4-ji7/issues"
+    "url": "https://github.com/i3thuan5/ten1su4/issues"
   },
-  "homepage": "http://xn--jny.xn--v0qr21b.xn--kpry57d/",
+  "homepage": "https://xn--kpu3003h.xn--v0qr21b.xn--kpry57d/",
   "dependencies": {
     "bluebird": "^3.4.1",
     "debug": "^2.2.0",

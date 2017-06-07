@@ -4,10 +4,6 @@ import { browserHistory } from "react-router";
 import "semantic-ui-css/components/dropdown.min.css";
 import config from "../../config";
 
-const 更新網址 = (語句, 腔) =>
-  browserHistory.replace(取得新網址(語句, 腔));
-
-
 export const 取得新網址 = (語句, 腔) => {
   if (config.全部腔口().length > 1) {
     return (
@@ -16,6 +12,9 @@ export const 取得新網址 = (語句, 腔) => {
   return (
       `/%E8%AC%9B/${encodeURI(語句)}`);
 };
+
+const 更新網址 = (語句, 腔) =>
+  browserHistory.replace(取得新網址(語句, 腔));
 
 class 查表格 extends React.Component {
   constructor(props) {
@@ -64,7 +63,7 @@ class 查表格 extends React.Component {
   }
 
   render() {
-    const { 語句, 腔, 正在查詢 } = this.props;
+    const { 語句, 正在查詢 } = this.props;
     const { menu } = this.state;
     return (
       <form className='ui form'

@@ -1,4 +1,3 @@
-import config from "../config";
 import {
   REQUEST_HANLO,
   RECIEVE_HANLO,

@@ -84,7 +84,7 @@ describe("元素", () => {
     });
     it("第一次查詢 查詢腔口=props.腔", () => {
       stubConfig("全部腔口", ["大埔腔"]);
-      const { component, requestSearch } = setupMount({
+      const { requestSearch } = setupMount({
         ...initArgv,
         腔: "大埔腔",
       });
@@ -94,7 +94,7 @@ describe("元素", () => {
     it("切換選單後第二次查詢 查詢腔口=選單切換後的腔口", () => {
       stubConfig("全部腔口", ["大埔腔", "饒平腔"]);
       const routerStub = sandbox.stub(browserHistory, "replace");
-      const { select, button, form, requestSearch } = setupMount();
+      const { select, form, requestSearch } = setupMount();
       // componentDidMount e7 thau1 tso3 tsit8 pai2 rs,
       // soo2-i2 ai3 tshing1 tiau7
       requestSearch.reset();

@@ -1,5 +1,4 @@
 import React from "react";
-import { render } from "react-dom";
 import { Router, Route, IndexRoute, browserHistory } from "react-router";
 import thunk from "redux-thunk";
 import { Provider } from "react-redux";
@@ -9,23 +8,21 @@ import 網站 from "../網站/網站";
 import 查 from "../頁/查/查";
 import reducer from "../reducers";
 
-class MyProvider extends React.Component {
-
-  getAppStore() {
-    const middlewares = [thunk];
-    if (process.env.NODE_ENV !== "production") {
-      middlewares.push(createLogger);
-    }
-    const store = createStore(
+const getAppStore = () => {
+  const middlewares = [thunk];
+  if (process.env.NODE_ENV !== "production") {
+    middlewares.push(createLogger);
+  }
+  const store = createStore(
       reducer,
       applyMiddleware(...middlewares),
     );
-    return store;
-  }
+  return store;
+};
 
-  render() {
-    const store = this.getAppStore();
-    return (
+const MyProvider = () => {
+  const store = getAppStore();
+  return (
       <Provider store={store}>
         <Router history={browserHistory}>
           <Route path='/' component={網站}>
@@ -37,8 +34,7 @@ class MyProvider extends React.Component {
           </Route>
         </Router>
       </Provider>
-    );
-  }
-}
+  );
+};
 
 export default MyProvider;

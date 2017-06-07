@@ -1,6 +1,4 @@
-import React from "react";
 import { expect } from "chai";
-import { shallow } from "enzyme";
 import 計算複製內容 from "../../src/utils/複製";
 
 const 一標音 = [{
