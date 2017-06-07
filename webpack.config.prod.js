@@ -1,22 +1,22 @@
-var path = require('path');
-var webpack = require('webpack');
+const path = require("path");
+const webpack = require("webpack");
 
 module.exports = {
-  devtool: 'source-map',
+  devtool: "source-map",
   entry: [
-    'babel-polyfill',
-    './src/index',
+    "babel-polyfill",
+    "./demo/index",
   ],
   output: {
-    path: path.join(__dirname, 'build'),
-    filename: 'bundle.js',
-    publicPath: '/',
+    path: path.join(__dirname, "build"),
+    filename: "bundle.js",
+    publicPath: "/",
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('production'),
+      "process.env": {
+        NODE_ENV: JSON.stringify("production"),
       },
     }),
     new webpack.optimize.UglifyJsPlugin({
@@ -26,29 +26,32 @@ module.exports = {
     }),
   ],
   resolve: {
-    extensions: ['', '.js', '.jsx'],
+    extensions: ["", ".js", ".jsx"],
   },
   module: {
     loaders: [{
       test: /\.jsx?/,
-      loaders: ['babel', 'strict'],
-      include: path.join(__dirname, 'src'),
+      loaders: ["babel", "strict"],
+      include: [
+        path.join(__dirname, "demo"),
+        path.join(__dirname, "src"),
+      ],
     },
     {
       test: /\.css$/,
-      loader: 'style-loader!css-loader!postcss-loader',
+      loader: "style-loader!css-loader!postcss-loader",
     },
     {
       test: /\.(png|jpg|gif|svg|woff|woff2|ttf|eot)$/,
-      loader: 'url-loader?limit=1',
+      loader: "url-loader?limit=1",
     },
     {
       test: /\.json$/,
-      loader: 'json-loader',
+      loader: "json-loader",
     },
     {
       test: /\.html$/,
-      loader: 'html-loader',
+      loader: "html-loader",
     },
     ],
   },
