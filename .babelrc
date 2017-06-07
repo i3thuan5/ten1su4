@@ -4,6 +4,9 @@
     "development": {
       "presets": ["react-hmre"]
     },
+    "production": {
+      "presets": ["es2015"]
+    },
     "test": {
       "presets": ["es2015"]
     }

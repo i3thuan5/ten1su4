@@ -7,8 +7,12 @@
     "test": "NODE_ENV=test mocha --compilers js:babel-register,css:app-css-dnt-compiler --recursive",
     "check": "eslint --ext .js --ext .jsx src/ test/",
     "reformat": "eslint --fix --ext .js --ext .jsx src/ test/",
-    "build": "mkdir -p build;rm -f build/* && NODE_ENV=production webpack --config webpack.config.prod.js --bail && (echo 'xn--kpu3003h.xn--v0qr21b.xn--kpry57d' > build/CNAME) && cp index.html favicons/* build/ && cp index.html build/404.html",
-    "deploy": "npm run build && gh-pages -d build/"
+    "clear": "mkdir -p build;rm -f build/*",
+    "build": "NODE_ENV=production webpack --config webpack.config.prod.js --bail && (echo 'xn--kpu3003h.xn--v0qr21b.xn--kpry57d' > build/CNAME) && cp index.html favicons/* build/ && cp index.html build/404.html",
+    "deploy": "npm run clear && npm run build && gh-pages -d build/",
+    "clear-lib": "rm -rf lib;mkdir -p lib",
+    "compile-lib": "NODE_ENV=production babel src --out-dir lib --copy-files",
+    "publish-lib": "npm run clear-lib && npm run compile-lib && npm publish"
   },
   "repository": {
     "type": "git",
@@ -41,6 +45,7 @@
     "superagent-bluebird-promise": "^3.0.2"
   },
   "devDependencies": {
+    "babel-cli": "^6.24.1",
     "babel-core": "^6.4.0",
     "babel-eslint": "^7.2.3",
     "babel-loader": "^6.2.1",
