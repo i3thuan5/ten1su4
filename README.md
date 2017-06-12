@@ -29,7 +29,6 @@ npm start
 ```
 
 ### 排版
-本專案用`jscs`排版
 ```bash 
 npm run reformat
 ```
