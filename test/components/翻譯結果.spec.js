@@ -1,7 +1,14 @@
 import React from "react";
 import { expect } from "chai";
 import { shallow } from "enzyme";
-import 翻譯結果, { 計算複製內容 } from "../../src/元素/翻譯/翻譯結果";
+import { CopyButton, DownloadButton, PlayButton } from "demo-ui";
+import 翻譯結果 from "../../src/元素/翻譯/翻譯結果";
+
+const 一標音 = [{
+  分詞: "大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ",
+  漢字: "大家 共下 來",
+  羅馬字: "Tai-gaˊ kiung-ha loiˇ",
+}];
 
 const initArgv = {
   正在查詢: false,
@@ -18,19 +25,10 @@ const setup = (argv = initArgv) => {
   return {
     component,
     header: component.find(".header"),
+    copyBtn: component.find(CopyButton),
+    downBtn: component.find(DownloadButton),
+    playBtn: component.find(PlayButton),
   };
-};
-
-const 一標音 = [{
-  分詞: "大-家｜tai-gaˊ 共-下｜kiung-ha 來｜loiˇ",
-  漢字: "大家 共下 來",
-  臺灣客話: "Tai-gaˊ kiung-ha loiˇ",
-}];
-
-const 一標音複製內容 = {
-  漢字: "大家共下來",
-  臺羅: "Tai-gaˊ kiung-ha loiˇ",
-  漢字臺羅: "大家共下來\nTai-gaˊ kiung-ha loiˇ",
 };
 
 describe("元素", () => {
@@ -49,34 +47,32 @@ describe("元素", () => {
       });
       expect(header.at(0).text()).match(/^主機發生錯誤/);
     });
-    it("計算複製內容", () => {
-      expect(計算複製內容(一標音)).to.eql(一標音複製內容);
+    it("空查詢結果 不顯示任何按鈕", () => {
+      const { copyBtn, downBtn, playBtn } = setup();
+      expect(copyBtn.length).to.equal(0);
+      expect(downBtn.length).to.equal(0);
+      expect(playBtn.length).to.equal(0);
     });
-    it("計算空複製內容", () => {
-      const 綜合標音 = [];
-      const expectResult = [];
-      expect(計算複製內容(綜合標音)).to.eql(expectResult);
+    it("有查詢結果 顯示複製鈕群", () => {
+      const { copyBtn } = setup({
+        ...initArgv,
+        綜合標音: 一標音,
+      });
+      expect(copyBtn.length).to.equal(4);
     });
-    it("計算多行複製內容", () => {
-      const 綜合標音 = 一標音.concat(一標音);
-      const expectResult = {
-        漢字: "大家共下來\n大家共下來",
-        臺羅: "Tai-gaˊ kiung-ha loiˇ\nTai-gaˊ kiung-ha loiˇ",
-        漢字臺羅: "大家共下來\nTai-gaˊ kiung-ha loiˇ\n大家共下來\nTai-gaˊ kiung-ha loiˇ",
-      };
-      expect(計算複製內容(綜合標音)).to.eql(expectResult);
+    it("有查詢結果 顯示整段下載鈕", () => {
+      const { downBtn } = setup({
+        ...initArgv,
+        綜合標音: 一標音,
+      });
+      expect(downBtn.length).to.equal(1);
     });
-    it("移除漢字之間空白", () => {
-      expect(計算複製內容(一標音)).to.eql(一標音複製內容);
-    });
-    it("移除多行漢字之間空白", () => {
-      const 綜合標音 = 一標音.concat(一標音);
-      const expectResult = {
-        漢字: "大家共下來\n大家共下來",
-        臺羅: "Tai-gaˊ kiung-ha loiˇ\nTai-gaˊ kiung-ha loiˇ",
-        漢字臺羅: "大家共下來\nTai-gaˊ kiung-ha loiˇ\n大家共下來\nTai-gaˊ kiung-ha loiˇ",
-      };
-      expect(計算複製內容(綜合標音)).to.eql(expectResult);
+    it("有查詢結果 顯示整段播放鈕", () => {
+      const { playBtn } = setup({
+        ...initArgv,
+        綜合標音: 一標音,
+      });
+      expect(playBtn.length).to.equal(1);
     });
   });
 });

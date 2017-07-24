@@ -2,18 +2,41 @@
 [![Build Status](https://travis-ci.org/i3thuan5/ten1su4.svg?branch=master)](https://travis-ci.org/i3thuan5/ten1su4)
 [![devDependency Status](https://david-dm.org/i3thuan5/ten1su4/dev-status.svg)](https://david-dm.org/i3thuan5/ten1su4#info=devDependencies)
 
+## 使用
+1. 安裝`ten1su4@1.0.0`
+2. 新增taupahji.config.js
+3. 讓你的webpack.config.js讀取taupahji.config.js
+```js
+plugins: [
+    new webpack.ProvidePlugin({
+      tensuConfig: "tensuConfig",
+    }),
+  ],
+  resolve: {
+    alias: {
+      tensuConfig: path.join(path.resolve(), "taupahji.config.js"),
+    },
+  },
+```
 
 ## 開發
 ### 安裝
-1. 先裝`nodejs 6`
-2. 裝相關套件`npm i`
-3. `npm start`，即可看`http://localhost:3000/`
+先裝`nodejs 6`
+```bash
+npm i
+npm start
+打開 http://localhost:3000/
+```
 
 ### 排版
-本專案用`jscs`排版，可下指令`npm run reformat`自動排版
+```bash 
+npm run reformat
+```
 
 ### 佈署
-下指令`npm run deploy`
+```
+npm run publish-lib
+```
 
 
 ## 相關連結

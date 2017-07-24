@@ -4,7 +4,7 @@ import {
   RECIEVE_HANLO,
   RECIEVE_ERROR_HANLO,
 } from "./action.type";
-import { 後端網址, 標漢字音標 } from "../後端網址";
+import API from "../api";
 
 export const 請求遠端查詢 = (語句, 腔口) => ({
   type: REQUEST_HANLO,
@@ -28,8 +28,10 @@ export const 遠端查詢發生錯誤 = (語句, 腔口, error) => ({
 
 export const 遠端查詢 = (語句, 腔口) => (dispatch) => {
   dispatch(請求遠端查詢(語句, 腔口));
+  const apiFunc = API.取得查詢函式();
+
   return superagent
-    .get(後端網址 + 標漢字音標)
+    .get(apiFunc())
     .query({
       查詢腔口: 腔口,
       查詢語句: 語句.trim(),
