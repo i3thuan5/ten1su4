@@ -1,8 +1,7 @@
 sudo: false
 language: node_js
 node_js:
-- 'node'
-- '6'
+- node
 env:
 - TSI2_LING7='build'
 - TSI2_LING7='test'
@@ -13,3 +12,23 @@ branches:
 script:
 - echo npm run $TSI2_LING7
 - npm run $TSI2_LING7
+before_deploy:
+  - npm run clear
+  - npm run build
+deploy:
+  - provider: npm
+    skip_cleanup: true
+    email: a8568730@gmail.com
+    api_key:
+      secure: BZDiOrzQiWUo8u+B1ux5w7QjWzJBe3E7MuFt0CJseuSJilyf/OIX4M09kOcyheSBZLOI8o21+UTPquK9A6qqLfiA5rHYCXwRF4zGcawBr8tQYHfDeZbFFqfWAvlgQso0DmrvN3CT0KgxiHCG6hEQ2WNEwvSnXMlaJTHwcom/F7/C9Xl9POKoG2FzYetQ7XYKryZsQquSc9NymFvo+erYS8AXf0CM1TmfbThzEuVoh/N6APOWTwj0rVW1qJ8prlE08tiAqkMAUG7Bg3Op+/He8fTTY7wQvQmdzYnydnUkPpziTzXwEUjHHyJWRZ+LbuAG/v6/eEyv9Pv4cv7Mr7p+VU3ABKOznZ0ZRTGpl6i40MwFYQ62KRnqyAnZMc70eILcnGIpoMx3ZCti7EggB4lBckJU7XtCC94U2TZ+fevnuPzh47z0C8xLxknIPO6+pb9oEmfVHTyM3CJ5JEzI2jbI60CcsTnietVBO0p6ZFFm2dyLs6qaxodmSzwWwDLIdDD/uSXoG1wUFB697F71v6yJnuyhdd2NKZK1huKBONuThrYW1sRGnP9WKvy/aknP/81mhy1mKtaQuM4Ii2L9tHlux8pe1MlBRw/ACFc/oIHUup031J21Ok8/ZH8zw2S/0EfQ902TnMQibbPSIloz5BHzQLCFRrSSlG7E//ZJc0A4cmE=
+    on:
+      tags: true
+      repo: i3thuan5/ten1su4
+  - provider: pages
+    fqdn: xn--kpu3003h.xn--v0qr21b.xn--kpry57d
+    skip_cleanup: true
+    local_dir: build/
+    github_token:
+      secure: QbIUQuRB07UGLtAJAIOJKbZN4EIwSmzyTuWeiy9UGoMi95b+bEhg/+NXePwoyoHu/PdExjY5IdMZCfH6tEpRMeOtHgWaCS90ezsaF7vA1zoGeXsJAMZexhjLDIXcB+yAMsdROMO0tggCxv3zesgEQgq3I/09eLvXtIpzuelys+1hQ2K4/IOWUcA/ypvJmKi0sQGoVNOK8j3sNZVFS1hnwDrHWa5BCsT0bKAr9Opa3Ju+sc/CD0zJhunV1dCHNLCmUmOi1I9i54JLFGt/Dt0wdLyy1dEni6cpPJcoMsrNaYJxebtyWqfu8WYP8JQg1HUqn6UpezXEvxq+asGcE/6qwQA8UlqJxvKxBV3/lViHMeDe6D6gFtkcyDysG/rIorlaD7eDc/ntgTFsvmee08rQa38PQDmEz3ViB2IU+W34v1OUh7oXkr2T/ExFK+98PcSj6sAipSftj21idtj+c0+rN7lWmMJwaWlOaRqk2kAZmPUd745Wuy84golN7IXNKHobihgNHMlZWgNTAGyj/eitlCN3yPg7Jyla1t1bhRkC6u3rqMFuwD1mwtpnyspDp7aJTws3ErpSldQRNw20Drv/CJIXLt01Hw+RhqrHwVgpQ+tD/NOttc0q4LKYcI/hKH/NK5TIU6Y4GaO6h4u3QUJRu7ePKrsKCt+wPFDJUUI+bxw=
+    on:
+      branch: master
