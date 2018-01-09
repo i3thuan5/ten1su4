@@ -13,9 +13,6 @@ branches:
 script:
 - echo npm run $TSI2_LING7
 - npm run $TSI2_LING7
-before_deploy:
-  - npm run clear
-  - npm run build
 deploy:
   - provider: npm
     skip_cleanup: true
@@ -34,3 +31,4 @@ deploy:
       secure: QbIUQuRB07UGLtAJAIOJKbZN4EIwSmzyTuWeiy9UGoMi95b+bEhg/+NXePwoyoHu/PdExjY5IdMZCfH6tEpRMeOtHgWaCS90ezsaF7vA1zoGeXsJAMZexhjLDIXcB+yAMsdROMO0tggCxv3zesgEQgq3I/09eLvXtIpzuelys+1hQ2K4/IOWUcA/ypvJmKi0sQGoVNOK8j3sNZVFS1hnwDrHWa5BCsT0bKAr9Opa3Ju+sc/CD0zJhunV1dCHNLCmUmOi1I9i54JLFGt/Dt0wdLyy1dEni6cpPJcoMsrNaYJxebtyWqfu8WYP8JQg1HUqn6UpezXEvxq+asGcE/6qwQA8UlqJxvKxBV3/lViHMeDe6D6gFtkcyDysG/rIorlaD7eDc/ntgTFsvmee08rQa38PQDmEz3ViB2IU+W34v1OUh7oXkr2T/ExFK+98PcSj6sAipSftj21idtj+c0+rN7lWmMJwaWlOaRqk2kAZmPUd745Wuy84golN7IXNKHobihgNHMlZWgNTAGyj/eitlCN3yPg7Jyla1t1bhRkC6u3rqMFuwD1mwtpnyspDp7aJTws3ErpSldQRNw20Drv/CJIXLt01Hw+RhqrHwVgpQ+tD/NOttc0q4LKYcI/hKH/NK5TIU6Y4GaO6h4u3QUJRu7ePKrsKCt+wPFDJUUI+bxw=
     on:
       branch: master
+      condition: $TSI2_LING7 = build
