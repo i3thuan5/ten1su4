@@ -9,6 +9,7 @@ env:
 branches:
   only:
   - master
+  - /^v\d+\.\d+(\.\d+)?(-\S*)?$/
 script:
 - echo npm run $TSI2_LING7
 - npm run $TSI2_LING7
@@ -24,6 +25,7 @@ deploy:
     on:
       tags: true
       repo: i3thuan5/ten1su4
+      condition: $TSI2_LING7 = build
   - provider: pages
     fqdn: xn--kpu3003h.xn--v0qr21b.xn--kpry57d
     skip_cleanup: true
