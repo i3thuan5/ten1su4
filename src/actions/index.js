@@ -16,7 +16,12 @@ export const 收到遠端查詢 = (語句, 腔口, body) => ({
   type: RECIEVE_HANLO,
   語句,
   腔口,
-  查詢結果: body,
+  分詞: body.分詞,
+  綜合標音: (
+    body.hasOwnProperty('多元書寫')?
+      body.多元書寫:
+      body.綜合標音
+  )
 });
 
 export const 遠端查詢發生錯誤 = (語句, 腔口, error) => ({

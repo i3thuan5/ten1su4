@@ -33,8 +33,8 @@ const 查詢結果 = (state = 初始state(), action) => {
     return {
       結果語句: action.語句,
       結果腔口: action.腔口,
-      分詞: action.查詢結果.分詞,
-      綜合標音: 正規化綜合標音(action.查詢結果.綜合標音),
+      分詞: action.分詞,
+      綜合標音: 正規化綜合標音(action.綜合標音),
     };
   case RECIEVE_ERROR_HANLO:
     return {
