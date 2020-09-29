@@ -24,7 +24,7 @@ deploy:
       repo: i3thuan5/ten1su4
       condition: $TSI2_LING7 = build
   - provider: pages
-    fqdn: xn--kpu3003h.xn--v0qr21b.xn--kpry57d
+    fqdn: tensu.ithuan.tw
     skip_cleanup: true
     local_dir: build/
     github_token:
