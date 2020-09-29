@@ -1,19 +1,19 @@
 module.exports = {
   專案: "鬥拍字",
   腔口: ["四縣腔", "海陸腔", "大埔腔", "詔安腔"],
-  範例查詢: "大家好",
+  範例查詢: "共下來尞當生趣",
   // 範例查詢: "",
   頁尾連結: [{
     title: "Facebook",
-    url: "https://www.facebook.com/i3thuan5/",
+    url: "https://www.facebook.com/ithuan.tw/",
   },
   {
     title: "Github",
-    url: "https://github.com/i3thuan5/ten1su4",
+    url: "https://github.com/i3thuan5/tensu",
   },
   {
-    title: "意傳文化科技",
-    url: "https://xn--v0qr21b.xn--kpry57d/",
+    title: "意傳科技",
+    url: "https://ithuan.tw/",
   },
   {
     title: "語料來源",
