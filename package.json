@@ -9,7 +9,7 @@
     "check": "eslint --ext .js --ext .jsx src/ test/",
     "reformat": "eslint --fix --ext .js --ext .jsx src/ test/",
     "clear": "mkdir -p build;rm -f build/*",
-    "build": "NODE_ENV=production webpack --config webpack.config.prod.js --bail && (echo 'xn--kpu3003h.xn--v0qr21b.xn--kpry57d' > build/CNAME) && cp index.html favicons/* build/ && cp index.html build/404.html",
+    "build": "NODE_ENV=production webpack --config webpack.config.prod.js --bail && cp index.html favicons/* build/ && cp index.html build/404.html",
     "deploy": "npm run clear && npm run build && gh-pages -d build/",
     "clear-lib": "rm -rf lib;mkdir -p lib",
     "compile-lib": "NODE_ENV=production babel src --out-dir lib --copy-files",
