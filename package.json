@@ -1,6 +1,6 @@
 {
   "name": "ten1su4",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "ten1su4",
   "main": "lib/index.js",
   "scripts": {
@@ -88,8 +88,5 @@
     "webpack": "^1.13.1",
     "webpack-dev-middleware": "^1.6.1",
     "webpack-hot-middleware": "^2.12.0"
-  },
-  "engines": {
-    "node": "^6.2.2"
   }
 }
