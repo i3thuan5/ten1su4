@@ -3,7 +3,7 @@ import config from "../config";
 const api = {};
 const self = api;
 
-api.網域 = () => ("https://服務.意傳.台灣/");
+api.網域 = () => ("https://hts.ithuan.tw/");
 
 api.標漢字音標 = () => `${self.網域()}標漢字音標`;
 
