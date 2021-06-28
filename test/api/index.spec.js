@@ -4,7 +4,7 @@ import API from "../../src/api";
 import config from "../../src/config";
 
 describe("API", () => {
-  const domain = "https://服務.意傳.台灣/";
+  const domain = "https://hts.ithuan.tw/";
   let sandbox;
   before(() => {
     sandbox = sinon.sandbox.create();
